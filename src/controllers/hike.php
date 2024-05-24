@@ -16,6 +16,7 @@ class HikeController
 
     public function infoHike()
     {
+        
     }
 
     public function addHike()

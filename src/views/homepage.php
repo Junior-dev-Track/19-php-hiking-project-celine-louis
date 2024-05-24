@@ -8,8 +8,9 @@
     foreach ($hikes as $hike) : ?>
         <div>
             <h3>
-                <!-- TODO: add ?id in href -->
-                <a href="index.php?action=hike>"><?= $hike; ?></a>
+                <a href="/19-php-hiking-project-celine-louis/hike/<?= urlencode($hike['id'])?>">
+                    <?= htmlspecialchars($hike['name']); ?>
+                </a>
             </h3>
         </div>
     <?php

@@ -17,7 +17,7 @@ class Hike extends Database
     public $createdAt;
     public $updatedAt;
 
-    public function __construct($id, $name, $distance, $duration, $elevationGain, $description, $createdAt, $updatedAt)
+    public function __construct ($name, $distance, $duration, $elevationGain, $description, $createdAt, $updatedAt, $id = null)
     {
         $this->id = $id;
         $this->name = $name;
@@ -84,14 +84,21 @@ class HikeRepository extends Database
 {
     public function getListHikes(): array
     {
-        // TODO get id and other stuffs
-        $stmt = $this->query(
-            "SELECT name FROM hikes"
-        );
+        // Execute the query to get id_hike and name from the hikes table
+        $stmt = $this->query("SELECT id_hike, name FROM hikes");
+
+        // Initialize an empty array to hold the hikes
         $hikes = [];
+
+        // Fetch each row as an associative array
         while ($result = $stmt->fetch()) {
-            $hikes[] = $result['name'];
+            $hikes[] = [
+                'id' => $result['id_hike'], // Correctly access the 'id_hike' column
+                'name' => $result['name'] // Correctly access the 'name' column
+            ];
         }
+
+        // Return the array of hikes
         return $hikes;
     }
 }
