@@ -14,11 +14,36 @@ class HikeController
         require('../src/views/homepage.php');
     }
 
-    public function infoHike()
-    {
+    public function infoHike(
+        $id,
+        $name,
+        $distance,
+        $duration,
+        $elevationGain,
+        $description,
+        $createdAt,
+        $updatedAt
+    ) {
+        $hike = (new Hike(
+            $id,
+            $name,
+            $distance,
+            $duration,
+            $elevationGain,
+            $description,
+            $createdAt,
+            $updatedAt
+        ))->getHike($id);
+        if ($hike instanceof Hike) {
+            require('../views/hikeDetails.php'); // Load the view to display hike details
+        } else {
+            // Handle case where hike not found
+            header("Location: index.php"); // Redirect back to homepage
+        }
     }
 
-    public function addHike()
+
+    public function addHike($id)
     {
     }
 

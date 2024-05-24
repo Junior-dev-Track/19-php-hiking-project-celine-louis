@@ -24,5 +24,5 @@ try {
     }
 } catch (Exception $e) {
     $errorMessage = $e->getMessage();
-    require('src/views/error.php');
+    require('../src/views/error.php');
 }
