@@ -7,7 +7,7 @@ use Models\User;
 class UserController
 {
     public function subscription() {
-
+        
     }
 
     public function login() {
