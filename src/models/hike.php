@@ -6,8 +6,6 @@ namespace Models;
 
 use Exception;
 
-require_once('src/model/database.php');
-
 class Hike extends Database
 {
     public $id;
@@ -92,7 +90,7 @@ class HikeRepository extends Database
         );
         $hikes = [];
         while ($result = $stmt->fetch()) {
-            $hikes[] = $result['title'];
+            $hikes[] = $result['name'];
         }
         return $hikes;
     }
