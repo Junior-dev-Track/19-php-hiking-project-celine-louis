@@ -15,7 +15,7 @@ class Database
     public function __construct()
     {
         try {
-            $this->pdo = new PDO("mysql:host=" . HOST . ";dbname=" . DB . ";port=", LOGIN, PASSWORD);
+            $this->pdo = new PDO("mysql:host=" . HOST . ";dbname=" . DB, LOGIN, PASSWORD);
             $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
             //We want any issues to throw an exception with details, instead of a silence or a simple warning
