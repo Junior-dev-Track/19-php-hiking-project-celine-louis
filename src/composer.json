@@ -5,7 +5,8 @@
       ]
     },
     "require": {
-      "ext-pdo": "*"
+      "ext-pdo": "*",
+        "leafo/scssphp": "^0.8.2"
     },
     "phpmailer/phpmailer": "^6.9.1"
     

@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Hike Details</title>
+    <link rel="stylesheet" href="../../public//assets/css/main.css">
+
 </head>
 
 <body>
