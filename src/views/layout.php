@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8" />
     <title><?= $title ?></title>
-    <link rel="stylesheet" href="../../public//assets/css/main.css">
+    <link rel="stylesheet" href="../output.css">
 </head>
 
 <header>
-    <nav>
+    <nav class="bg-red-500">
         <ul>
             <li><a href="/">Home</a></li>
         </ul>
