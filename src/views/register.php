@@ -1,3 +1,7 @@
+<?php $title = "Hike project"; ?>
+
+<?php ob_start(); ?>
+
 <main>
     <form id="registerForm" action="" method="post">
         <h2>Register</h2>
@@ -14,3 +18,7 @@
         <button class="btn" type="submit">Register</button>
     </form>
 </main>
+
+<?php $content = ob_get_clean(); ?>
+
+<?php require('layout.php') ?>
