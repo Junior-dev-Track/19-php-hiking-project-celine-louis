@@ -10,7 +10,9 @@
 <header>
     <nav>
         <ul>
-            <li><a href="/">Home</a></li>
+            <li><a href="/19-php-hiking-project-celine-louis/">Home</a></li>
+            <li><a href="/19-php-hiking-project-celine-louis/register">Register</a></li>
+            <li><a href="/19-php-hiking-project-celine-louis/login">Login</a></li>
         </ul>
     </nav>
 </header>
