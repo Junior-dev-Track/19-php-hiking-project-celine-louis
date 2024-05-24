@@ -7,21 +7,22 @@ use Models\HikeRepository;
 
 class HikeController
 {
-    public function listHikes() {
+    public function listHikes()
+    {
         $hikes = (new HikeRepository())->getListHikes();
 
         require('../src/views/homepage.php');
     }
 
-    public function infoHike() {
-
+    public function infoHike()
+    {
     }
 
-    public function addHike() {
-
+    public function addHike()
+    {
     }
 
-    public function deleteHike() {
-        
+    public function deleteHike()
+    {
     }
 }
