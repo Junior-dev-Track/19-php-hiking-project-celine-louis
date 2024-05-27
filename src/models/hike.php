@@ -17,7 +17,7 @@ class Hike extends Database
     public $createdAt;
     public $updatedAt;
 
-    public function __construct($name, $distance, $duration, $elevationGain, $description, $createdAt, $updatedAt, $id = null)
+    public function __construct($id = null, $name, $distance, $duration, $elevationGain, $description, $createdAt, $updatedAt)
     {
         $this->id = $id;
         $this->name = $name;
@@ -100,5 +100,9 @@ class HikeRepository extends Database
         } catch (Exception $e) {
             echo $e->getMessage();
         }
+    }
+
+    public function filter()
+    {
     }
 }

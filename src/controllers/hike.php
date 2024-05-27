@@ -17,8 +17,6 @@ class HikeController
     public function infoHike($id)
     {
         $hike = (new HikeRepository())->getHike($id);
-        // Make $hike globally accessible
-        global $hike;
         require('../src/views/hikeDetails.php');
     }
 

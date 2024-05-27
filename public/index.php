@@ -42,7 +42,8 @@ $router->map('GET', '/login', function () {
 // });
 
 $router->map('GET', '/hike/[:id]', function ($id) {
-    require('../src/views/hikeDetails.php');
+    $hikeController = new HikeController();
+    $hikeController->infoHike($id);
 });
 
 

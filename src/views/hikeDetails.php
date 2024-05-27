@@ -7,6 +7,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 ?>
 
+
+
 <main>
     <h1><?php echo htmlspecialchars($hike->name); ?></h1>
     <section>
@@ -19,12 +21,9 @@ error_reporting(E_ALL);
     </section>
     <section>
         <h2>Description</h2>
-        <p><?php echo (htmlspecialchars($hike->description)); ?></p>
+        <p><?php echo ($hike->description); ?></p>
     </section>
 
-    <?php echo '<pre>';
-    var_dump($hike);
-    echo '</pre>'; ?>
 
 
 
