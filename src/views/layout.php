@@ -21,7 +21,7 @@
     <?= $content ?>
 </body>
 
-<footer class="bg-red-500">
+<footer>
     <p>I'm an amazing footer</p>
 </footer>
 
