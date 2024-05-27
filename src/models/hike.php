@@ -28,13 +28,37 @@ class Hike extends Database
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
     }
+}
+
+
+class HikeRepository extends Database
+{
+    public function getListHikes(): array
+    {
+        // Execute the query to get id_hike and name from the hikes table
+        $stmt = $this->query("SELECT id_hike, name FROM hikes");
+
+        // Initialize an empty array to hold the hikes
+        $hikes = [];
+
+        // Fetch each row as an associative array
+        while ($result = $stmt->fetch()) {
+            $hikes[] = [
+                'id' => $result['id_hike'], // Correctly access the 'id_hike' column
+                'name' => $result['name'] // Correctly access the 'name' column
+            ];
+        }
+
+        // Return the array of hikes
+        return $hikes;
+    }
 
     public function getHike($id)
     {
         try {
             $param = [$id];
             $stmt = $this->query(
-                "SELECT * FROM hikes WHERE id_hike = ?",
+                "SELECT * FROM hikes WHERE id_hike =?",
                 $param
             );
             $results = $stmt->fetch();
@@ -76,29 +100,5 @@ class Hike extends Database
         } catch (Exception $e) {
             echo $e->getMessage();
         }
-    }
-}
-
-
-class HikeRepository extends Database
-{
-    public function getListHikes(): array
-    {
-        // Execute the query to get id_hike and name from the hikes table
-        $stmt = $this->query("SELECT id_hike, name FROM hikes");
-
-        // Initialize an empty array to hold the hikes
-        $hikes = [];
-
-        // Fetch each row as an associative array
-        while ($result = $stmt->fetch()) {
-            $hikes[] = [
-                'id' => $result['id_hike'], // Correctly access the 'id_hike' column
-                'name' => $result['name'] // Correctly access the 'name' column
-            ];
-        }
-
-        // Return the array of hikes
-        return $hikes;
     }
 }

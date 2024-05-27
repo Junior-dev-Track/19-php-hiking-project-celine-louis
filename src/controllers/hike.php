@@ -13,18 +13,19 @@ class HikeController
 
         require('../src/views/homepage.php');
     }
+
     public function infoHike($id)
     {
-        $hike = (new Hike())->getHike($id);
-
-        if ($hike instanceof Hike) {
-            // Variables are populated inside the getHike method
-            require('../views/hikeDetails.php'); // Load the view to display hike details
-        } else {
-            // Handle case where hike not found
-            header("Location: index.php"); // Redirect back to homepage
-        }
+        $hike = (new HikeRepository())->getHike($id);
+        // Make $hike globally accessible
+        global $hike;
+        require('../src/views/hikeDetails.php');
     }
+
+
+
+
+
 
 
 
