@@ -4,13 +4,20 @@
 
 <main>
     <p>coucou</p>
-    <!-- <h1><?= htmlspecialchars($hike->name); ?></h1>
-    <p>Distance: <?= htmlspecialchars($hike->distance); ?> km</p>
-    <p>Duration: <?= htmlspecialchars($hike->duration); ?> hours</p>
-    <p>Elevation Gain: <?= htmlspecialchars($hike->elevationGain); ?> meters</p>
-    <p>Description: <?= htmlspecialchars($hike->description); ?></p>
-    <p>Created At: <?= htmlspecialchars($hike->createdAt); ?></p>
-    <p>Updated At: <?= htmlspecialchars($hike->updatedAt); ?></p> -->
+    <h1><?php echo htmlspecialchars($hike->name); ?></h1>
+    <section>
+        <h2>Overview</h2>
+        <ul>
+            <li><strong>Distance:</strong> <?php echo htmlspecialchars($hike->distance); ?> km</li>
+            <li><strong>Duration:</strong> <?php echo htmlspecialchars($hike->duration); ?> hours</li>
+            <li><strong>Elevation Gain:</strong> <?php echo htmlspecialchars($hike->elevationGain); ?> meters</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Description</h2>
+        <p><?php echo nl2br(htmlspecialchars($hike->description)); ?></p>
+    </section>
+
 
 </main>
 
