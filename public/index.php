@@ -18,54 +18,35 @@ $router = new AltoRouter();
 
 $router->setBasePath('/19-php-hiking-project-celine-louis');
 
-$router->map('GET', '/', function () {
-    $hikeController = new HikeController();
+$hikeController = new HikeController();
+
+$router->map('GET', '/', function () use ($hikeController) {
     $hikeController->listHikes();
 });
+
+// filter route
+$router->map('POST', '/filter', function () use ($hikeController) {
+    $hikeController->filterHikes();
+}, 'filter');
 
 $router->map('GET', '/register', function () {
     require('../src/views/register.php');
 });
 
-// $router->map('POST', '/register', function() {
-//     $userController = (new UserController())->subscription();
-// });
-
 $router->map('GET', '/login', function () {
     require('../src/views/login.php');
 });
 
-
-
-// $router->map('GET', 'hike&id=[i:id]', function() {
-//     require('../src/views/hikeDetails.php');
-// });
-
-$router->map('GET', '/hike/[:id]', function ($id) {
-    $hikeController = new HikeController();
+$router->map('GET', '/hike/[:id]', function ($id) use ($hikeController) {
     $hikeController->infoHike($id);
 });
 
-
-
-// $router->map('GET', '/subscribe', function() {
-//     $userController = new UserController();
-//     if ($method == "POST") {
-//         $userController->subscription($_POST["firstname"], $_POST["lastname"], $_POST["nickname"], $_POST["email"], $_POST["password"]);
-//     } else {
-//         // Assuming showSubscriptionForm() exists and handles GET requests
-//         $userController->showSubscriptionForm();
-//     }
-// });
-
-//Route matching
 $match = $router->match();
 
 if (is_array($match) && is_callable($match['target'])) {
     call_user_func_array($match['target'], $match['params']);
 } else {
     echo '<div class="container">
-            <div class="text_title">Error 404</div>
-            <div class="text_desc">Page not found.</div>
-          </div>';
+    <div class="text_title">Error 404</div>
+    <div class="text_desc">Page not found.</div>';
 }

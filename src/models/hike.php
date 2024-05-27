@@ -102,7 +102,30 @@ class HikeRepository extends Database
         }
     }
 
-    public function filter()
+    public function getHikesByTag(string $tag): array
     {
+        $stmt = $this->query("
+            SELECT h.id_hike, h.name 
+            FROM hikes h
+            JOIN tags t ON h.id_hike = t.id_hike
+            WHERE t.tag =?
+        ", [$tag]);
+
+        $hikes = [];
+        while ($result = $stmt->fetch()) {
+            $hikes[] = [
+                'id' => $result['id_hike'],
+                'name' => $result['name']
+            ];
+        }
+
+        return $hikes;
+    }
+
+    public function listHikes()
+    {
+        $hikeRepo = new HikeRepository();
+        $hikes = $hikeRepo->getListHikes();
+        // Render the hikes view with $hikes data
     }
 }
