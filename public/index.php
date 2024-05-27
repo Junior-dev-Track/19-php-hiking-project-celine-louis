@@ -23,39 +23,63 @@ $router->map('GET', '/', function () {
     $hikeController->listHikes();
 });
 
+// add User
 $router->map('GET', '/register', function () {
     require('../src/views/register.php');
 });
 
-// $router->map('POST', '/register', function() {
-//     $userController = (new UserController())->subscription();
-// });
+$router->map('POST', '/register', function() {
+    $userController = (new UserController())->register();
+    unset($_SESSION['message']);
+});
 
+// login User
 $router->map('GET', '/login', function () {
     require('../src/views/login.php');
 });
 
-
-
-// $router->map('GET', 'hike&id=[i:id]', function() {
-//     require('../src/views/hikeDetails.php');
-// });
-
-$router->map('GET', '/hike/[:id]', function ($id) {
-    require('../src/views/hikeDetails.php');
+$router->map('POST', '/login', function() {
+    $userController = (new UserController())->login();
 });
 
+// logout user 
+$router->map('GET', '/logout', function () {
+    $userController = (new UserController())->logout();
+});
 
+// user profile
+$router->map('GET', '/profile', function () {
+    require('../src/views/userProfile.php');
+    unset($_SESSION['message']);
+});
 
-// $router->map('GET', '/subscribe', function() {
-//     $userController = new UserController();
-//     if ($method == "POST") {
-//         $userController->subscription($_POST["firstname"], $_POST["lastname"], $_POST["nickname"], $_POST["email"], $_POST["password"]);
-//     } else {
-//         // Assuming showSubscriptionForm() exists and handles GET requests
-//         $userController->showSubscriptionForm();
-//     }
-// });
+// TODO in one function ?
+// modif firstname
+$router->map('POST', '/profile/update-firstname', function () {
+    $userController = (new UserController())->editFirstName();
+    require('../src/views/userProfile.php');
+});
+
+$router->map('POST', '/profile/update-lastname', function () {
+    $userController = (new UserController())->editLastName();
+    require('../src/views/userProfile.php');
+});
+
+$router->map('POST', '/profile/update-email', function () {
+    $userController = (new UserController())->editEmail();
+    require('../src/views/userProfile.php');
+});
+
+$router->map('POST', '/profile/update-password', function () {
+    $userController = (new UserController())->editPassword();
+    require('../src/views/userProfile.php');
+});
+
+// details hike
+$router->map('GET', '/hike/[:id]', function ($id) {
+    $hikeController = new HikeController();
+    $hikeController->infoHike($id);
+});
 
 //Route matching
 $match = $router->match();

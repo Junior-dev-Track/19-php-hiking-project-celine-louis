@@ -1,4 +1,4 @@
-<?php $title = "Hike project"; ?>
+<?php $title = "Hike project - Register"; ?>
 
 <?php ob_start(); ?>
 
@@ -15,6 +15,7 @@
         <input type="email" id="email" name="email" placeholder="Email"><br>
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="Password"><br>
+        <!-- TODO : check password twice -->
         <button class="btn" type="submit">Register</button>
     </form>
 </main>

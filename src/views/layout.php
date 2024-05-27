@@ -10,9 +10,19 @@
 <header>
     <nav>
         <ul>
-            <li><a href="/19-php-hiking-project-celine-louis/">Home</a></li>
-            <li><a href="/19-php-hiking-project-celine-louis/register">Register</a></li>
-            <li><a href="/19-php-hiking-project-celine-louis/login">Login</a></li>
+            <div class="left-nav">
+                <li><a href="/19-php-hiking-project-celine-louis/">Home</a></li>
+            </div>
+            <div class="right-nav">
+                <?php if (!isset($_SESSION['user']) || !$_SESSION['user']) : ?>
+                    <li><a href="/19-php-hiking-project-celine-louis/register">Register</a></li>
+                    <li><a href="/19-php-hiking-project-celine-louis/login">Login</a></li>
+                <?php else : ?>
+                    <li><a href="/19-php-hiking-project-celine-louis/logout">Logout</a></li>
+                    <li><a href="/19-php-hiking-project-celine-louis/profile">User profile</a></li>
+                    <li><a href="/19-php-hiking-project-celine-louis/addHike">Add a hike</a></li>
+                <?php endif; ?>
+            </div>
         </ul>
     </nav>
 </header>
