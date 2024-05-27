@@ -30,7 +30,6 @@ class Hike extends Database
     }
 }
 
-
 class HikeRepository extends Database
 {
     public function getListHikes(): array
@@ -100,25 +99,5 @@ class HikeRepository extends Database
         } catch (Exception $e) {
             echo $e->getMessage();
         }
-    }
-
-    public function getHikesByTag(string $tag): array
-    {
-        $stmt = $this->query("
-            SELECT h.id_hike, h.name 
-            FROM hikes h
-            JOIN tags t ON h.id_hike = t.id_hike
-            WHERE t.tag =?
-        ", [$tag]);
-
-        $hikes = [];
-        while ($result = $stmt->fetch()) {
-            $hikes[] = [
-                'id' => $result['id_hike'],
-                'name' => $result['name']
-            ];
-        }
-
-        return $hikes;
     }
 }

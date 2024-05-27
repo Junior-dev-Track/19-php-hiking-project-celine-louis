@@ -45,6 +45,14 @@ class HikeController
 
 
 
+
+
+
+
+
+
+
+
     public function addHike($id)
     {
     }
