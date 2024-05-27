@@ -121,11 +121,4 @@ class HikeRepository extends Database
 
         return $hikes;
     }
-
-    public function listHikes()
-    {
-        $hikeRepo = new HikeRepository();
-        $hikes = $hikeRepo->getListHikes();
-        // Render the hikes view with $hikes data
-    }
 }
