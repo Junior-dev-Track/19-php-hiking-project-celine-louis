@@ -8,7 +8,7 @@
 </head>
 
 <header>
-    <nav class="bg-red-500">
+    <nav>
         <ul>
             <li><a href="/19-php-hiking-project-celine-louis/">Home</a></li>
             <li><a href="/19-php-hiking-project-celine-louis/register">Register</a></li>
@@ -21,7 +21,7 @@
     <?= $content ?>
 </body>
 
-<footer>
+<footer class="bg-red-500">
     <p>I'm an amazing footer</p>
 </footer>
 
