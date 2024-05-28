@@ -52,16 +52,17 @@ class HikeRepository extends Database
         return $hikes;
     }
 
-    public function getListHikesByUser($id) {
+    public function getListHikesByUser($id)
+    {
         try {
 
-            $param = ['id_user'=> $id];
+            $param = ['id_user' => $id];
             $stmt = $this->query(
                 "SELECT id_hike, name FROM hikes WHERE id_user = :id_user",
                 $param
             );
             $hikesByUser = [];
-            
+
             while ($result = $stmt->fetch()) {
                 $hikesByUser[] = [
                     'id' => $result['id_hike'],
@@ -103,9 +104,9 @@ class HikeRepository extends Database
     public function addHike(string $name, float $distance, int $duration, int $elevationGain, string $description, array $tags)
     {
         try {
-            $paramsHike = [$name, $distance, $duration, $elevationGain, $description];
+            $paramsHike = [$name, $distance, $duration, $elevationGain, $description, $_SESSION["user"]["id"]];
             $this->query(
-                "INSERT INTO hikes (name, distance, duration, elevation_gain, description, created_at) VALUES (?,?,?,?,?, NOW())",
+                "INSERT INTO hikes (name, distance, duration, elevation_gain, description, created_at, id_user) VALUES (?,?,?,?,?, NOW(), ?)",
                 $paramsHike
             );
             $hikeID = $this->lastInsertId();
@@ -145,7 +146,8 @@ class HikeRepository extends Database
     }
 
 
-    public function editHike($id, $name, $distance, $duration, $elevationGain, $description) {
+    public function editHike($id, $name, $distance, $duration, $elevationGain, $description)
+    {
         try {
             $params = [
                 ":id_hike" => $id,
@@ -155,7 +157,7 @@ class HikeRepository extends Database
                 ":elevationGain" => $elevationGain,
                 ":description" => $description,
             ];
-            $stmt = $this->query (
+            $stmt = $this->query(
                 "UPDATE hikes
                 SET 
                     name = :name, 
