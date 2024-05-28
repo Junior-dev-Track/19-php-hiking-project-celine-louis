@@ -36,26 +36,20 @@ class HikeController
         require '../src/views/homepage.php';
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function addHike($id)
+    public function addHike()
     {
+        $name = $_POST['name'];
+        $distance = $_POST['distance'];
+        $duration = $_POST['duration'];
+        $elevation_gain = $_POST['elevationGain'];
+        $description = $_POST['description'];
+        // Split the tags string into an array based on commas
+        $tags = explode(',', $_POST['tags']);
+
+        // Pass the tags array to the addHike method
+        $this->hikeRepo->addHike($name, $distance, $duration, $elevation_gain, $description, $tags);
     }
+
 
     public function deleteHike()
     {

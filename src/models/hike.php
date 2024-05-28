@@ -78,28 +78,29 @@ class HikeRepository extends Database
         }
     }
 
-    public function addHike(string $name, $distance, $duration, $elevation_gain, string $description, $created_at, array $tags)
+    public function addHike(string $name, float $distance, int $duration, int $elevationGain, string $description, array $tags)
     {
-        // TODO hinting for other variables
         try {
-            $paramsHike = [$name, $distance, $duration, $elevation_gain, $description, $created_at];
+            $paramsHike = [$name, $distance, $duration, $elevationGain, $description];
             $this->query(
-                "INSERT INTO hikes (name, distance, duration, elevation_Gain, description, created_at)VALUES (?, ?, ?, ?, ?, ?)",
+                "INSERT INTO hikes (name, distance, duration, elevation_gain, description, created_at) VALUES (?,?,?,?,?, NOW())",
                 $paramsHike
             );
             $hikeID = $this->lastInsertId();
 
+            // Assuming tags are stored in a separate table and linked via id_hike
             foreach ($tags as $tag) {
-                $paramTag = [$tag, $hikeID];
                 $this->query(
-                    "INSERT INTO tags (tag, id_hike) VALUES (?, ?)",
-                    $paramTag
+                    "INSERT INTO tags (tag, id_hike) VALUES (?,?)",
+                    [$tag, $hikeID]
                 );
             }
         } catch (Exception $e) {
-            echo $e->getMessage();
+            // Log the error or handle it appropriately
+            error_log($e->getMessage());
         }
     }
+
 
     public function getHikesByTag(string $tag): array
     {

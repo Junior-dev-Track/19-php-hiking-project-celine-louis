@@ -34,7 +34,7 @@ $router->map('GET', '/register', function () {
     require('../src/views/register.php');
 });
 
-$router->map('POST', '/register', function() {
+$router->map('POST', '/register', function () {
     $userController = (new UserController())->register();
     unset($_SESSION['message']);
 });
@@ -44,7 +44,7 @@ $router->map('GET', '/login', function () {
     require('../src/views/login.php');
 });
 
-$router->map('POST', '/login', function() {
+$router->map('POST', '/login', function () {
     $userController = (new UserController())->login();
 });
 
@@ -93,6 +93,16 @@ $router->map('GET', '/hike/[:id]', function ($id) {
     $hikeController->infoHike($id);
 });
 
+// Add a hike
+$router->map('GET', '/addHike', function () {
+    require('../src/views/addHike.php');
+});
+
+$router->map('POST', '/addHike', function () {
+    $hikeController = new HikeController();
+    $hikeController->addHike();
+    header('Location: /19-php-hiking-project-celine-louis/profile');
+});
 //Route matching
 $match = $router->match();
 

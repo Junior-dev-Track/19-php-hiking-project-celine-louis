@@ -22,11 +22,6 @@ error_reporting(E_ALL);
         <p><?php echo (htmlspecialchars($hike->description)); ?></p>
     </section>
 
-    <?php echo '<pre>';
-    var_dump($hike);
-    echo '</pre>'; ?>
-
-
 
 </main>
 
