@@ -55,7 +55,7 @@ $router->map('GET', '/logout', function () {
 
 // user profile
 $router->map('GET', '/profile', function () {
-    require('../src/views/userProfile.php');
+    $hikeByUser = (new HikeController())->listHikesByUser();
     unset($_SESSION['message']);
 });
 
@@ -89,9 +89,26 @@ $router->map('POST', '/profile/delete-account', function () {
 
 // details hike
 $router->map('GET', '/hike/[:id]', function ($id) {
-    $hikeController = new HikeController();
-    $hikeController->infoHike($id);
+    $hikeController = (new HikeController())->infoHike($id);
 });
+
+// edit form
+$router->map('GET', '/edit-hike/[:id]', function ($id) {
+    $hikeController = (new HikeController())->editInfoHikeForm($id);
+});
+
+// $router->map('POST', '/edit-hike/submit-edit-hike/[:id]', function ($id) {
+//     $hikeController = (new HikeController())->editInfoHike($id);
+//     require('../src/views/userProfile.php');
+// });
+
+$router->map('POST', '/edit-hike/submit-edit-hike', function ($id) {
+    $hikeController = (new HikeController())->editInfoHike($id);
+    // require('../src/views/userProfile.php');
+});
+
+
+
 
 //Route matching
 $match = $router->match();
