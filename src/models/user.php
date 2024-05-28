@@ -259,7 +259,7 @@ class User extends Database
     {
         if (isset($oldPassword, $newPassword, $newPasswordCheck) && !empty($oldPassword) && !empty($newPassword) && !empty($newPasswordCheck)) {
             $pwdUser = $this->getPassword($_SESSION['user']['id']);
-            if ($oldPassword && password_verify($oldPassword, $pwdUser) && $newPassword == $newPassword) {
+            if ($oldPassword && password_verify($oldPassword, $pwdUser) && $newPassword == $newPasswordCheck) {
                 try {
                     $param = [
                         ':newPassword' => password_hash($newPassword, PASSWORD_BCRYPT),
@@ -281,6 +281,27 @@ class User extends Database
     }
 
     // TODO delete account
+    public function deleteUser(string $password, string $passwordCheck)
+    {
+        if (isset($password, $passwordCheck) && !empty($password) && !empty($passwordCheck)) {
+            $pwdUser = $this->getPassword($_SESSION['user']['id']);
+            if ($password && password_verify($password, $pwdUser) && $password == $passwordCheck) {
+                try {
+                    $param = [':id_user' => $_SESSION['user']['id']];
+                    $stmt = $this->query(
+                        "DELETE FROM users WHERE id_user = :id_user",
+                        $param
+                    );
+
+                    $_SESSION['message'] = 'Account deleted';
+                } catch (Exception $e) {
+                    error_log($e->getMessage());
+                }
+            } else {
+                $_SESSION['message'] = 'Wrong password';
+            }
+        }
+    }
 
     // TODO phpMailer
 }
