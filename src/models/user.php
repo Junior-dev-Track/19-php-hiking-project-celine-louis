@@ -189,7 +189,7 @@ class User extends Database
                         'UPDATE users SET firstname = :firstname WHERE id_user = :id_user',
                         $param
                     );
-
+                    
                     $_SESSION['message'] = 'Firstname updated';
                 } catch (Exception $e) {
                     error_log($e->getMessage());

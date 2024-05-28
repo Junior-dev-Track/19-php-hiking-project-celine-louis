@@ -6,7 +6,8 @@ use Models\User;
 
 class UserController
 {
-    public function register() {
+    public function register()
+    {
         $firstname = $_POST['firstname'];
         $lastname = $_POST['lastname'];
         $nickname = $_POST['nickname'];
@@ -18,7 +19,8 @@ class UserController
         header('Location: /19-php-hiking-project-celine-louis/');
     }
 
-    public function login() {
+    public function login()
+    {
         $emailNickname = $_POST['emailNickname'];
         $password = $_POST['password'];
 
@@ -26,12 +28,14 @@ class UserController
         header('Location: /19-php-hiking-project-celine-louis/');
     }
 
-    public function logout() {
+    public function logout()
+    {
         unset($_SESSION['user']);
         header('Location: /19-php-hiking-project-celine-louis/');
     }
 
-    public function editFirstName() {
+    public function editFirstName()
+    {
         $firstname = $_POST['firstname'];
         $password = $_POST['password'];
 
@@ -39,7 +43,8 @@ class UserController
         header("Location: /19-php-hiking-project-celine-louis/profile");
     }
 
-    public function editLastName() {
+    public function editLastName()
+    {
         $lastname = $_POST['lastname'];
         $password = $_POST['password'];
 
@@ -47,7 +52,8 @@ class UserController
         header("Location: /19-php-hiking-project-celine-louis/profile");
     }
 
-    public function editEmail() {
+    public function editEmail()
+    {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
@@ -55,7 +61,8 @@ class UserController
         header("Location: /19-php-hiking-project-celine-louis/profile");
     }
 
-    public function editPassword() {
+    public function editPassword()
+    {
         $oldPassword = $_POST['oldPassword'];
         $newPassword = $_POST['newPassword'];
         $newPasswordCheck = $_POST['newPasswordCheck'];
@@ -64,7 +71,8 @@ class UserController
         header("Location: /19-php-hiking-project-celine-louis/profile");
     }
 
-    public function deleteAccount() {
+    public function deleteAccount()
+    {
         $password = $_POST['password'];
         $passwordCheck = $_POST['passwordCheck'];
 

@@ -8,8 +8,8 @@ error_reporting(E_ALL);
 ?>
 
 <main>
-    <h1><?php echo htmlspecialchars($hike->name); ?></h1>
     <section>
+    <h1><?php echo htmlspecialchars($hike->name); ?></h1>
         <h2>Overview</h2>
         <ul>
             <li><strong>Distance:</strong> <?php echo htmlspecialchars($hike->distance); ?> km</li>
@@ -20,7 +20,7 @@ error_reporting(E_ALL);
     <section>
         <h2>Description</h2>
         <p><?php echo (htmlspecialchars($hike->description)); ?></p>
-    </section>
+    </section> 
 
 
 </main>
