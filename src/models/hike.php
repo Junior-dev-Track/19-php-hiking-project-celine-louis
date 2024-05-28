@@ -17,7 +17,7 @@ class Hike extends Database
     public $createdAt;
     public $updatedAt;
 
-    public function __construct($id = null, $name, $distance, $duration, $elevationGain, $description, $createdAt, $updatedAt)
+    public function __construct($id, $name, $distance, $duration, $elevationGain, $description, $createdAt, $updatedAt)
     {
         $this->id = $id;
         $this->name = $name;
