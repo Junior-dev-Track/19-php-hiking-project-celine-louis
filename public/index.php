@@ -60,7 +60,7 @@ $router->map('GET', '/profile', function () {
 });
 
 // TODO in one function ?
-// modif firstname
+// manage account
 $router->map('POST', '/profile/update-firstname', function () {
     $userController = (new UserController())->editFirstName();
     require('../src/views/userProfile.php');
@@ -78,6 +78,11 @@ $router->map('POST', '/profile/update-email', function () {
 
 $router->map('POST', '/profile/update-password', function () {
     $userController = (new UserController())->editPassword();
+    require('../src/views/userProfile.php');
+});
+
+$router->map('POST', '/profile/delete-account', function () {
+    $userController = (new UserController())->deleteAccount();
     require('../src/views/userProfile.php');
 });
 

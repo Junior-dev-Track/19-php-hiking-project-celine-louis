@@ -71,6 +71,13 @@
             <input type="password" id="password" name="newPasswordCheck" placeholder="Check new password"><br>
             <input type="submit" value="Valid new email">
         </form>
+
+        <h2>Delete your account</h2>
+        <form action="profile/delete-account" method="post">
+            <input type="password" id="password" name="password" placeholder="Password"><br>
+            <input type="password" id="password" name="passwordCheck" placeholder="Check password"><br>
+            <input type="submit" value="Delete your account">
+        </form>
     </section>
 
 </main>

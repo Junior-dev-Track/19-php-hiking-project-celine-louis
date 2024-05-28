@@ -65,6 +65,10 @@ class UserController
     }
 
     public function deleteAccount() {
+        $password = $_POST['password'];
+        $passwordCheck = $_POST['passwordCheck'];
 
+        $user = (new User())->deleteUser($password, $passwordCheck);
+        $this->logout();
     }
 }
