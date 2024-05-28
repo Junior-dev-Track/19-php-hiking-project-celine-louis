@@ -30,6 +30,26 @@
         <!-- <button id='editPassword'>Edit password</button> -->
     </section>
 
+    <section class="hike-by-user">
+        <h2>Your hikes</h2>
+        <?php if (!empty($hikesByUser)) : ?>
+            <ul>
+                <?php foreach ($hikesByUser as $hikeByUser) : ?>
+                    <li>
+                        <a href="/19-php-hiking-project-celine-louis/hike/<?= urlencode($hikeByUser['id']) ?>">
+                            <?= htmlspecialchars($hikeByUser['name']) ?>
+                        </a>
+                        <a href="/19-php-hiking-project-celine-louis/edit-hike/<?= urlencode($hikeByUser['id']) ?>">
+                            Edit hike
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else : ?>
+            <p>No hikes found. Add a new one!</p>
+        <?php endif; ?>
+    </section>
+
     <section class="edit_profile">
         <h1>Edit your profile</h1>
         <?php if (isset($_SESSION['message'])) : ?>
@@ -62,8 +82,7 @@
             <input type="password" id="password" name="password" placeholder="Password"><br>
             <input type="submit" value="Valid new email">
         </form>
-        
-        <!-- TODO -->
+
         <h2>Edit your password</h2>
         <form action="profile/update-password" method="post">
             <input type="password" id="password" name="oldPassword" placeholder="Old password"><br>

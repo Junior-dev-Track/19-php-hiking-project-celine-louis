@@ -52,6 +52,28 @@ class HikeRepository extends Database
         return $hikes;
     }
 
+    public function getListHikesByUser($id) {
+        try {
+
+            $param = ['id_user'=> $id];
+            $stmt = $this->query(
+                "SELECT id_hike, name FROM hikes WHERE id_user = :id_user",
+                $param
+            );
+            $hikesByUser = [];
+            
+            while ($result = $stmt->fetch()) {
+                $hikesByUser[] = [
+                    'id' => $result['id_hike'],
+                    'name' => $result['name']
+                ];
+            }
+            return $hikesByUser;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
+    }
+
     public function getHike($id)
     {
         try {
@@ -120,4 +142,35 @@ class HikeRepository extends Database
 
         return $hikes;
     }
+
+
+    public function editHike($id, $name, $distance, $duration, $elevationGain, $description) {
+        try {
+            $params = [
+                ":id_hike" => $id,
+                ":name" => $name,
+                ":distance" => $distance,
+                ":duration" => $duration,
+                ":elevationGain" => $elevationGain,
+                ":description" => $description,
+            ];
+            $stmt = $this->query (
+                "UPDATE hikes
+                SET 
+                    name = :name, 
+                    distance = :distance, 
+                    duration = :duration,  
+                    elevation_gain = :elevationGain, 
+                    description = :description 
+                WHERE id_hike = :id_hike",
+                $params
+            );
+            $_SESSION['message'] = 'New hike added!';
+            // TODO TO TEST + add updated_at + tags
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
+    }
+
+    // TODO : get tag(s) of hike
 }
