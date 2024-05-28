@@ -59,8 +59,9 @@ $router->map('GET', '/profile', function () {
     unset($_SESSION['message']);
 });
 
-// TODO in one function ?
 // manage account
+$edit_account = '';
+
 $router->map('POST', '/profile/update-firstname', function () {
     $userController = (new UserController())->editFirstName();
     require('../src/views/userProfile.php');
