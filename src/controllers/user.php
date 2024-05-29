@@ -37,30 +37,14 @@ class UserController
         header('Location: /19-php-hiking-project-celine-louis/');
     }
 
-    public function editFirstName()
+    public function editProfile()
     {
         $firstname = $_POST['firstname'];
-        $password = $_POST['password'];
-
-        $user = (new User())->setFirstname($firstname, $password);
-        header("Location: /19-php-hiking-project-celine-louis/profile");
-    }
-
-    public function editLastName()
-    {
         $lastname = $_POST['lastname'];
-        $password = $_POST['password'];
-
-        $user = (new User())->setLastname($lastname, $password);
-        header("Location: /19-php-hiking-project-celine-louis/profile");
-    }
-
-    public function editEmail()
-    {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        $user = (new User())->setEmail($email, $password);
+        $user = (new User())->editUser($firstname, $lastname, $email, $password);
         header("Location: /19-php-hiking-project-celine-louis/profile");
     }
 
@@ -80,6 +64,11 @@ class UserController
         $passwordCheck = $_POST['passwordCheck'];
 
         $user = (new User())->deleteUser($password, $passwordCheck);
-        $this->logout();
+        if ($_SESSION['message'] === 'Account deleted') {
+            $this->logout();
+            header('Location: /19-php-hiking-project-celine-louis');
+        } else {
+            header("Location: /19-php-hiking-project-celine-louis/profile");
+        }
     }
 }

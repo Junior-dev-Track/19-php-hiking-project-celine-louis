@@ -89,6 +89,7 @@ class User extends Database
                 // Configure PHP Mailer
                 $mail = new PHPMailer();
                 $mail->isSMTP();
+                $mail->SMTPDebug = 2;
                 $mail->Host = 'live.smtp.mailtrap.io';
                 $mail->SMTPAuth = true;
                 $mail->Port = 587;
@@ -109,7 +110,8 @@ class User extends Database
 
                 // Send the email
                 $mail->send();
-                $_SESSION['message'] = 'Message has been sent';
+                $_SESSION['message'] = $mail;
+                // $_SESSION['message'] = 'Message has been sent';
             } catch (Exception $e) {
                 error_log($e->getMessage());
                 $_SESSION['message'] = 'No email send';
@@ -212,86 +214,34 @@ class User extends Database
         }
     }
 
-    public function setFirstname(string $firstname, string $password)
+    public function editUser(string $firstname, string $lastname, string $email, string $password)
     {
-        if (isset($firstname, $password) && !empty($firstname) && !empty($password)) {
-            echo gettype($_SESSION['user']['id']);
+        if (isset($firstname, $lastname, $email, $password) && !empty($firstname) && !empty($lastname) && !empty($email) && !empty($password)) {
             $pwdUser = $this->getPassword($_SESSION['user']['id']);
             if ($password && password_verify($password, $pwdUser)) {
                 try {
                     $param = [
                         ':firstname' => ucfirst($firstname),
-                        ':id_user' => $_SESSION['user']['id']
-                    ];
-                    $stmt = $this->query(
-                        'UPDATE users SET firstname = :firstname WHERE id_user = :id_user',
-                        $param
-                    );
-
-                    $_SESSION['message'] = 'Firstname updated';
-                    $_SESSION['user']['firstname'] = ucfirst($firstname);
-                } catch (Exception $e) {
-                    error_log($e->getMessage());
-                }
-            } else {
-                $_SESSION['message'] = 'Wrong password';
-            }
-        }
-    }
-
-    public function setLastname(string $lastname, string $password)
-    {
-        if (isset($lastname, $password) && !empty($lastname) && !empty($password)) {
-            $pwdUser = $this->getPassword($_SESSION['user']['id']);
-            if ($password && password_verify($password, $pwdUser)) {
-                try {
-                    $param = [
                         ':lastname' => ucfirst($lastname),
+                        ':email' => $email,
                         ':id_user' => $_SESSION['user']['id']
                     ];
                     $stmt = $this->query(
-                        'UPDATE users SET lastname = :lastname WHERE id_user = :id_user',
+                        'UPDATE users 
+                        SET firstname = :firstname, lastname = :lastname, email = :email
+                        WHERE id_user = :id_user',
                         $param
                     );
 
-                    $_SESSION['message'] = 'Lastname updated';
+                    $_SESSION['message'] = 'Profile updated';
+                    $_SESSION['user']['firstname'] = ucfirst($firstname);
                     $_SESSION['user']['lastname'] = ucfirst($lastname);
+                    $_SESSION['user']['email'] = $email;
                 } catch (Exception $e) {
                     error_log($e->getMessage());
                 }
             } else {
                 $_SESSION['message'] = 'Wrong password';
-            }
-        }
-    }
-
-    public function setEmail(string $email, string $password)
-    {
-        if (isset($email, $password) && !empty($email) && !empty($password)) {
-            $checkEmail = $this->findUserByEmail($email);
-            if ($checkEmail)
-                $_SESSION['message'] = 'Email already taken';
-            else {
-                $pwdUser = $this->getPassword($_SESSION['user']['id']);
-                if ($password && password_verify($password, $pwdUser)) {
-                    try {
-                        $param = [
-                            ':email' => $email,
-                            ':id_user' => $_SESSION['user']['id']
-                        ];
-                        $stmt = $this->query(
-                            'UPDATE users SET email = :email WHERE id_user = :id_user',
-                            $param
-                        );
-
-                        $_SESSION['message'] = 'Email updated';
-                        $_SESSION['user']['email'] = ucfirst($email);
-                    } catch (Exception $e) {
-                        error_log($e->getMessage());
-                    }
-                } else {
-                    $_SESSION['message'] = 'Wrong password';
-                }
             }
         }
     }
@@ -315,7 +265,7 @@ class User extends Database
 
                     $subjectEmail = 'Important Notice';
                     $bodyEmail = 'Your new password is updated.';
-                    $this->sendEmail($subjectEmail, $bodyEmail);
+                    // $this->sendEmail($subjectEmail, $bodyEmail);
                 } catch (Exception $e) {
                     error_log($e->getMessage());
                 }
@@ -325,7 +275,6 @@ class User extends Database
         }
     }
 
-    // TODO delete account
     public function deleteUser(string $password, string $passwordCheck)
     {
         if (isset($password, $passwordCheck) && !empty($password) && !empty($passwordCheck)) {

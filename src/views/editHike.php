@@ -50,7 +50,7 @@ error_reporting(E_ALL);
 
         <input type="submit" value="Valid edited hike">
     </form>
-    <!-- TODO -->
+
     <a href="/19-php-hiking-project-celine-louis/deleteHike/<?= urlencode($id) ?>">Delete hike</a>
 </main>
 

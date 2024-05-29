@@ -60,21 +60,12 @@ $router->map('GET', '/profile', function () {
     unset($_SESSION['message']);
 });
 
-// manage account
-$edit_account = '';
-
-$router->map('POST', '/profile/update-firstname', function () {
-    $userController = (new UserController())->editFirstName();
-    require('../src/views/userProfile.php');
+$router->map('GET', '/profile/editProfile', function () {
+    require('../src/views/editProfile.php');
 });
 
-$router->map('POST', '/profile/update-lastname', function () {
-    $userController = (new UserController())->editLastName();
-    require('../src/views/userProfile.php');
-});
-
-$router->map('POST', '/profile/update-email', function () {
-    $userController = (new UserController())->editEmail();
+$router->map('POST', '/profile/editProfile', function () {
+    $userController = (new UserController())->editProfile();
     require('../src/views/userProfile.php');
 });
 
@@ -85,7 +76,6 @@ $router->map('POST', '/profile/update-password', function () {
 
 $router->map('POST', '/profile/delete-account', function () {
     $userController = (new UserController())->deleteAccount();
-    require('../src/views/userProfile.php');
 });
 
 // details hike
