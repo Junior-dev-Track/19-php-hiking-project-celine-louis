@@ -112,6 +112,10 @@ $router->map('POST', '/edit-hike/[:id]', function ($id) {
     (new HikeController())->editInfoHike($id);
 });
 
+$router->map('GET', '/deleteHike/[:id]', function ($id) {
+    (new HikeController())->deleteHike($id);
+});
+
 
 
 

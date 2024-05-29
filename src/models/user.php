@@ -19,14 +19,10 @@ class User extends Database
             if ($checkUserNickname) {
                 $_SESSION['message'] = 'Nickname already taken';
                 header('Location: /19-php-hiking-project-celine-louis/register');
-                // echo '<p>Nickname already taken</p>';
-                // require('../src/views/register.php');
                 exit;
             } else if ($checkUserEmail) {
                 $_SESSION['message'] = 'Email already taken';
                 header('Location: /19-php-hiking-project-celine-louis/register');
-                // echo '<p>Email already taken</p>';
-                // require('../src/views/register.php');
                 exit;
             } else {
 
@@ -189,7 +185,7 @@ class User extends Database
                         'UPDATE users SET firstname = :firstname WHERE id_user = :id_user',
                         $param
                     );
-                    
+
                     $_SESSION['message'] = 'Firstname updated';
                 } catch (Exception $e) {
                     error_log($e->getMessage());

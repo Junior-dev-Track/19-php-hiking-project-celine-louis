@@ -77,8 +77,9 @@ class HikeController
         $this->hikeRepo->addHike($name, $distance, $duration, $elevation_gain, $description, $tags);
     }
 
-
-    public function deleteHike()
+    public function deleteHike($id)
     {
+        (new HikeRepository())->deleteHike($id);
+        header('Location: /19-php-hiking-project-celine-louis/profile');
     }
 }
