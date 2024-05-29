@@ -16,7 +16,9 @@ class UserController
 
         $user = (new User())->addUser($firstname, $lastname, $nickname, $email, $password);
 
+        // TODO temp
         header('Location: /19-php-hiking-project-celine-louis/');
+        // header('Location: /19-php-hiking-project-celine-louis/profile');
     }
 
     public function login()

@@ -7,6 +7,11 @@ namespace Models;
 use Exception;
 use PDO;
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+// use PHPMailer\PHPMailer\Exception;
+
+
 class User extends Database
 {
     public function addUser(string $firstname, string $lastname, string $nickname, string $email, string $password)
@@ -25,50 +30,90 @@ class User extends Database
                 header('Location: /19-php-hiking-project-celine-louis/register');
                 exit;
             } else {
+                try {
+                    // strip_tags for the login
+                    $firstnamePost = ucfirst(strip_tags($firstname));
+                    $lastnamePost = ucfirst(strip_tags($lastname));
+                    $nicknamePost = strip_tags($nickname);
 
-                // strip_tags for the login
-                $firstnamePost = ucfirst(strip_tags($firstname));
-                $lastnamePost = ucfirst(strip_tags($lastname));
-                $nicknamePost = strip_tags($nickname);
+                    // check valid email
+                    $emailPost = filter_var($email, FILTER_VALIDATE_EMAIL);
 
-                // check valid email
-                $emailPost = filter_var($email, FILTER_VALIDATE_EMAIL);
+                    // hash the password
+                    $passPost = password_hash($password, PASSWORD_BCRYPT);
 
-                // hash the password
-                $passPost = password_hash($password, PASSWORD_BCRYPT);
+                    //SQL part
+                    $param = [
+                        ":firstname" => $firstnamePost,
+                        ":lastname" => $lastnamePost,
+                        ":nickname" => $nicknamePost,
+                        ":email" => $emailPost,
+                        ":password" => $passPost
+                    ];
+                    $stmt = $this->query(
+                        "INSERT INTO users (firstname, lastname, nickname, email, password) 
+                        VALUES (:firstname, :lastname, :nickname, :email, :password)",
+                        $param
+                    );
 
-                //SQL part
-                $param = [
-                    ":firstname" => $firstnamePost,
-                    ":lastname" => $lastnamePost,
-                    ":nickname" => $nicknamePost,
-                    ":email" => $emailPost,
-                    ":password" => $passPost
-                ];
-                $stmt = $this->query(
-                    "INSERT INTO users (firstname, lastname, nickname, email, password) 
-                    VALUES (:firstname, :lastname, :nickname, :email, :password)",
-                    $param
-                );
+                    // retreive the last ID
+                    $id = $this->lastInsertId();
 
-                if (!$stmt) {
-                    die("form not sent to the db");
+                    // store data of user in $_SESSION
+                    $_SESSION["user"] = [
+                        "id" => $id,
+                        "firstname" => $firstnamePost,
+                        "lastname" => $lastnamePost,
+                        "nickname" => $nicknamePost,
+                        "email" => $emailPost
+                    ];
+
+                    $subjectEmail = 'Welcome on the hike project website!';
+                    $bodyEmail = 'Dear ' . $_SESSION['user']['firsname'] . ', <br><br>Thank you for registering We\'re glad to have you with us.';
+                    $this->sendEmail($subjectEmail, $bodyEmail);
+                } catch (Exception $e) {
+                    error_log($e->getMessage());
                 }
-
-                // retreive the last ID
-                $id = $this->lastInsertId();
-
-                // store data of user in $_SESSION
-                $_SESSION["user"] = [
-                    "id" => $id,
-                    "firstname" => $firstnamePost,
-                    "lastname" => $lastnamePost,
-                    "nickname" => $nicknamePost,
-                    "email" => $emailPost
-                ];
             }
         } else {
             throw new Exception("form incomplete");
+        }
+    }
+
+    // TODO seems to work, still waiting to receive my email ?
+    private function sendEmail(string $subjectEmail, string $bodyEmail)
+    {
+        if (isset($_SESSION['user']) && $_SESSION['user']) {
+
+            try {
+                // Configure PHP Mailer
+                $mail = new PHPMailer();
+                $mail->isSMTP();
+                $mail->Host = 'live.smtp.mailtrap.io';
+                $mail->SMTPAuth = true;
+                $mail->Port = 587;
+                $mail->Username = 'api';
+                $mail->Password = 'b4d0f6052ac3da85244c3ff4b9dd6653';
+
+                // Set who the message is to be sent from and who the sender will appear to be
+                $mail->setFrom('no-reply@becode.com', 'No Reply'); // Use a "no-reply" email address and name
+                $mail->addAddress($_SESSION['user']['mail']); // Add a recipient
+
+                // Set email format to HTML
+                $mail->isHTML(true);
+
+                // Set email content
+                $mail->Subject = $subjectEmail;
+                $mail->Body    = $bodyEmail;
+                $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+                // Send the email
+                $mail->send();
+                $_SESSION['message'] = 'Message has been sent';
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+                $_SESSION['message'] = 'No email send';
+            }
         }
     }
 
@@ -138,9 +183,6 @@ class User extends Database
                     } else {
                         $_SESSION['message'] = 'Wrong password';
                         header("Location: /19-php-hiking-project-celine-louis/login");
-                        // echo '<p>Wrong login</p>';
-                        // require('../src/views/login.php');
-                        // exit;
                     }
                 } catch (Exception $e) {
                     error_log($e->getMessage());
@@ -187,6 +229,7 @@ class User extends Database
                     );
 
                     $_SESSION['message'] = 'Firstname updated';
+                    $_SESSION['user']['firstname'] = ucfirst($firstname);
                 } catch (Exception $e) {
                     error_log($e->getMessage());
                 }
@@ -212,6 +255,7 @@ class User extends Database
                     );
 
                     $_SESSION['message'] = 'Lastname updated';
+                    $_SESSION['user']['lastname'] = ucfirst($lastname);
                 } catch (Exception $e) {
                     error_log($e->getMessage());
                 }
@@ -241,6 +285,7 @@ class User extends Database
                         );
 
                         $_SESSION['message'] = 'Email updated';
+                        $_SESSION['user']['email'] = ucfirst($email);
                     } catch (Exception $e) {
                         error_log($e->getMessage());
                     }
@@ -267,6 +312,10 @@ class User extends Database
                     );
 
                     $_SESSION['message'] = 'Password updated';
+
+                    $subjectEmail = 'Important Notice';
+                    $bodyEmail = 'Your new password is updated.';
+                    $this->sendEmail($subjectEmail, $bodyEmail);
                 } catch (Exception $e) {
                     error_log($e->getMessage());
                 }
@@ -284,6 +333,12 @@ class User extends Database
             if ($password && password_verify($password, $pwdUser) && $password == $passwordCheck) {
                 try {
                     $param = [':id_user' => $_SESSION['user']['id']];
+                    // delete his id from hikes
+                    $stmt = $this->query(
+                        'UPDATE hikes SET id_user = NULL where id_user = :id_user',
+                        $param
+                    );
+                    // delete the user
                     $stmt = $this->query(
                         "DELETE FROM users WHERE id_user = :id_user",
                         $param
@@ -298,6 +353,4 @@ class User extends Database
             }
         }
     }
-
-    // TODO phpMailer
 }

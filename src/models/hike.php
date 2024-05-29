@@ -6,7 +6,7 @@ namespace Models;
 
 use Exception;
 
-date_default_timezone_set('UTC'); // Set the timezone to Coordinated Universal Time
+date_default_timezone_set('Europe/Berlin'); // Set the timezone to Coordinated Universal Time
 
 class Hike extends Database
 {
