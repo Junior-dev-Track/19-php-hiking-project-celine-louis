@@ -1,12 +1,27 @@
 
+# RewriteEngine On
+# RewriteBase /19-php-hiking-project-celine-louis
+
+# # Redirection conditionnelle pour les requêtes vers public/
+# RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
+# RewriteRule ^ %1 [L,NE,R=302]
+
+# # Exclusion des fichiers statiques de la redirection
+# #RewriteCond %{REQUEST_FILENAME}!-f
+# #RewriteCond %{REQUEST_FILENAME}!-d
+# RewriteRule ^(.*)$ public/index.php?$1 [L,QSA]
+
+
+
 RewriteEngine On
 RewriteBase /19-php-hiking-project-celine-louis
+
+# Exclude static files from being rewritten
+RewriteCond %{REQUEST_URI}!\.(js|css|gif|jpg|png)$ [NC]
 
 # Redirection conditionnelle pour les requêtes vers public/
 RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
 RewriteRule ^ %1 [L,NE,R=302]
 
-# Exclusion des fichiers statiques de la redirection
-#RewriteCond %{REQUEST_FILENAME}!-f
-#RewriteCond %{REQUEST_FILENAME}!-d
+# Rewrite everything else to go through index.php
 RewriteRule ^(.*)$ public/index.php?$1 [L,QSA]

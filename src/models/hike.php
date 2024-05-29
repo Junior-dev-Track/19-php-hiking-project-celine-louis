@@ -35,7 +35,7 @@ class HikeRepository extends Database
     public function getListHikes(): array
     {
         // Execute the query to get id_hike and name from the hikes table
-        $stmt = $this->query("SELECT id_hike, name FROM hikes");
+        $stmt = $this->query("SELECT id_hike, name, distance, duration, elevation_gain FROM hikes");
 
         // Initialize an empty array to hold the hikes
         $hikes = [];
@@ -44,7 +44,10 @@ class HikeRepository extends Database
         while ($result = $stmt->fetch()) {
             $hikes[] = [
                 'id' => $result['id_hike'], // Correctly access the 'id_hike' column
-                'name' => $result['name'] // Correctly access the 'name' column
+                'name' => $result['name'], // Correctly access the 'name' column
+                'duration' => $result['duration'], // Correctly access the 'name' column
+                'distance' => $result['distance'], // Correctly access the 'name' column
+                'elevation_gain' => $result['elevation_gain'] // Correctly access the 'name' column
             ];
         }
 
@@ -128,7 +131,7 @@ class HikeRepository extends Database
     public function getHikesByTag(string $tag): array
     {
         $stmt = $this->query("
-            SELECT h.id_hike, h.name 
+            SELECT h.id_hike, h.name, h.duration, h.distance, h.elevation_gain 
             FROM hikes h
             JOIN tags t ON h.id_hike = t.id_hike
             WHERE t.tag =?
@@ -138,7 +141,10 @@ class HikeRepository extends Database
         while ($result = $stmt->fetch()) {
             $hikes[] = [
                 'id' => $result['id_hike'],
-                'name' => $result['name']
+                'name' => $result['name'],
+                'duration' => $result['duration'],
+                'distance' => $result['distance'],
+                'elevation_gain' => $result['elevation_gain']
             ];
         }
 
