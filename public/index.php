@@ -14,6 +14,7 @@ error_reporting(E_ALL);
 
 session_start();
 
+define('BASE_PATH', '/19-php-hiking-project-celine-louis'); 
 $router = new AltoRouter();
 
 $router->setBasePath('/19-php-hiking-project-celine-louis');
@@ -59,21 +60,12 @@ $router->map('GET', '/profile', function () {
     unset($_SESSION['message']);
 });
 
-// manage account
-$edit_account = '';
-
-$router->map('POST', '/profile/update-firstname', function () {
-    $userController = (new UserController())->editFirstName();
-    require('../src/views/userProfile.php');
+$router->map('GET', '/profile/editProfile', function () {
+    require('../src/views/editProfile.php');
 });
 
-$router->map('POST', '/profile/update-lastname', function () {
-    $userController = (new UserController())->editLastName();
-    require('../src/views/userProfile.php');
-});
-
-$router->map('POST', '/profile/update-email', function () {
-    $userController = (new UserController())->editEmail();
+$router->map('POST', '/profile/editProfile', function () {
+    $userController = (new UserController())->editProfile();
     require('../src/views/userProfile.php');
 });
 
@@ -84,7 +76,6 @@ $router->map('POST', '/profile/update-password', function () {
 
 $router->map('POST', '/profile/delete-account', function () {
     $userController = (new UserController())->deleteAccount();
-    require('../src/views/userProfile.php');
 });
 
 // details hike
@@ -104,17 +95,15 @@ $router->map('POST', '/addHike', function () {
 });
 // edit form
 $router->map('GET', '/edit-hike/[:id]', function ($id) {
-    $hikeController = (new HikeController())->editInfoHikeForm($id);
+    (new HikeController())->editInfoHikeForm($id);
 });
 
-// $router->map('POST', '/edit-hike/submit-edit-hike/[:id]', function ($id) {
-//     $hikeController = (new HikeController())->editInfoHike($id);
-//     require('../src/views/userProfile.php');
-// });
+$router->map('POST', '/edit-hike/[:id]', function ($id) {
+    (new HikeController())->editInfoHike($id);
+});
 
-$router->map('POST', '/edit-hike/submit-edit-hike', function ($id) {
-    $hikeController = (new HikeController())->editInfoHike($id);
-    // require('../src/views/userProfile.php');
+$router->map('GET', '/deleteHike/[:id]', function ($id) {
+    (new HikeController())->deleteHike($id);
 });
 
 
