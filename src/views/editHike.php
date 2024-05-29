@@ -9,7 +9,21 @@ error_reporting(E_ALL);
 
 <main>
     <h1><?php echo htmlspecialchars($hikesByUser->name); ?></h1>
-    <form action="edit-hike/submit-edit-hike" method="post" class="edit-hike">
+
+    <?php if (isset($_SESSION['message'])) : ?>
+        <div class="alert alert-info">
+            <?= htmlspecialchars($_SESSION['message']) ?>
+        </div>
+    <?php endif; ?>
+
+    <?php $options = [
+        "Mountain" => "Mountain",
+        "Countryside" => "Countryside",
+        "Full nature" => "Full nature"
+    ]; ?>
+
+    <!-- <form action="edit-hike/<?= urlencode($id) ?>" method="post" class="edit-hike"> -->
+    <form action="<?php echo BASE_PATH; ?>/edit-hike/<?= urlencode($id) ?>" method="post" class="edit-hike">
         <label for="name">Name of the hike: </label>
         <input type="text" name="name" value="<?php echo htmlspecialchars($hikesByUser->name); ?>"><br>
 
@@ -25,12 +39,19 @@ error_reporting(E_ALL);
         <label for="description">Description: </label>
         <textarea name="description" rows="7" cols="50"><?php echo htmlspecialchars($hikesByUser->description); ?></textarea><br>
 
-        <!-- TODO -->
-        <!-- <label for="tag">Tags: </label>
-        <textarea name="tag" value="<?php echo htmlspecialchars($hikesByUser->description); ?>"><br> -->
+        <select name="tag" id="tags">
+            <?php foreach ($options as $value => $label) : ?>
+                <option value="<?php echo htmlspecialchars($value); ?>" <?php echo ($tagOfHike['tag'] == $value) ? 'selected' : ''; ?>>
+                    <?php echo htmlspecialchars($label); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
 
         <input type="submit" value="Valid edited hike">
     </form>
+
+    <a href="/19-php-hiking-project-celine-louis/deleteHike/<?= urlencode($id) ?>">Delete hike</a>
 </main>
 
 <?php $content = ob_get_clean(); ?>

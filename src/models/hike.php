@@ -6,6 +6,8 @@ namespace Models;
 
 use Exception;
 
+date_default_timezone_set('Europe/Berlin'); // Set the timezone to Coordinated Universal Time
+
 class Hike extends Database
 {
     public $id;
@@ -35,7 +37,7 @@ class HikeRepository extends Database
     public function getListHikes(): array
     {
         // Execute the query to get id_hike and name from the hikes table
-        $stmt = $this->query("SELECT id_hike, name FROM hikes");
+        $stmt = $this->query("SELECT id_hike, name, id_user FROM hikes");
 
         // Initialize an empty array to hold the hikes
         $hikes = [];
@@ -44,7 +46,8 @@ class HikeRepository extends Database
         while ($result = $stmt->fetch()) {
             $hikes[] = [
                 'id' => $result['id_hike'], // Correctly access the 'id_hike' column
-                'name' => $result['name'] // Correctly access the 'name' column
+                'name' => $result['name'], // Correctly access the 'name' column
+                'id_user' => $result['id_user']
             ];
         }
 
@@ -104,9 +107,18 @@ class HikeRepository extends Database
     public function addHike(string $name, float $distance, int $duration, int $elevationGain, string $description, array $tags)
     {
         try {
-            $paramsHike = [$name, $distance, $duration, $elevationGain, $description, $_SESSION["user"]["id"]];
+            $paramsHike = [
+                ':name' => $name,
+                ':distance' => $distance,
+                ':duration' => $duration,
+                ':elevation_gain' => $elevationGain,
+                ':description' => $description,
+                ':created_at' => date('Y-m-d H:i:s'),
+                ':id_user' => $_SESSION["user"]["id"]
+            ];
             $this->query(
-                "INSERT INTO hikes (name, distance, duration, elevation_gain, description, created_at, id_user) VALUES (?,?,?,?,?, NOW(), ?)",
+                "INSERT INTO hikes (name, distance, duration, elevation_gain, description, created_at, id_user) 
+                VALUES (:name, :distance, :duration, :elevation_gain, :description, :created_at, :id_user)",
                 $paramsHike
             );
             $hikeID = $this->lastInsertId();
@@ -118,11 +130,14 @@ class HikeRepository extends Database
                     [$tag, $hikeID]
                 );
             }
+            $_SESSION['message'] = 'New hike added!';
         } catch (Exception $e) {
             // Log the error or handle it appropriately
             error_log($e->getMessage());
         }
     }
+
+
 
 
     public function getHikesByTag(string $tag): array
@@ -145,8 +160,7 @@ class HikeRepository extends Database
         return $hikes;
     }
 
-
-    public function editHike($id, $name, $distance, $duration, $elevationGain, $description)
+    public function editHike($id, $name, $distance, $duration, $elevationGain, $description, $tag)
     {
         try {
             $params = [
@@ -156,6 +170,7 @@ class HikeRepository extends Database
                 ":duration" => $duration,
                 ":elevationGain" => $elevationGain,
                 ":description" => $description,
+                ":updated_at" => date('Y-m-d H:i:s')
             ];
             $stmt = $this->query(
                 "UPDATE hikes
@@ -164,16 +179,59 @@ class HikeRepository extends Database
                     distance = :distance, 
                     duration = :duration,  
                     elevation_gain = :elevationGain, 
-                    description = :description 
+                    description = :description,
+                    updated_at = :updated_at
                 WHERE id_hike = :id_hike",
                 $params
             );
-            $_SESSION['message'] = 'New hike added!';
+
+            $params2 = [
+                ":id_hike" => $id,
+                ":tag" => $tag,
+            ];
+            $stmt2 = $this->query(
+                "UPDATE tags SET tag = :tag WHERE id_hike = :id_hike",
+                $params2
+            );
+
+            $_SESSION['message'] = 'Hike edited!';
             // TODO TO TEST + add updated_at + tags
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
     }
 
-    // TODO : get tag(s) of hike
+    public function getTagOfHike($id)
+    {
+        $stmt = $this->query(
+            "SELECT id_tag, tag FROM tags WHERE id_hike = :id_hike",
+            ['id_hike' => $id]
+        );
+        $result = $stmt->fetch();
+        $tag = [
+            'id_tag' => $result['id_tag'],
+            'tag' => $result['tag']
+        ];
+        return $tag;
+    }
+
+    public function deleteHike($id)
+    {
+        try {
+            $param = [':id_hike' => $id];
+            $stmt = $this->query(
+                "DELETE FROM tags WHERE id_hike = :id_hike",
+                $param
+            );
+
+            $stmt = $this->query(
+                "DELETE FROM hikes WHERE id_hike = :id_hike",
+                $param
+            );
+
+            $_SESSION['message'] = 'Hike deleted';
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
+    }
 }
