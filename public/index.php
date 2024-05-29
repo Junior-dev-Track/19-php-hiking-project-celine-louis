@@ -14,6 +14,7 @@ error_reporting(E_ALL);
 
 session_start();
 
+define('BASE_PATH', '/19-php-hiking-project-celine-louis'); 
 $router = new AltoRouter();
 
 $router->setBasePath('/19-php-hiking-project-celine-louis');
@@ -104,17 +105,11 @@ $router->map('POST', '/addHike', function () {
 });
 // edit form
 $router->map('GET', '/edit-hike/[:id]', function ($id) {
-    $hikeController = (new HikeController())->editInfoHikeForm($id);
+    (new HikeController())->editInfoHikeForm($id);
 });
 
-// $router->map('POST', '/edit-hike/submit-edit-hike/[:id]', function ($id) {
-//     $hikeController = (new HikeController())->editInfoHike($id);
-//     require('../src/views/userProfile.php');
-// });
-
-$router->map('POST', '/edit-hike/submit-edit-hike', function ($id) {
-    $hikeController = (new HikeController())->editInfoHike($id);
-    // require('../src/views/userProfile.php');
+$router->map('POST', '/edit-hike/[:id]', function ($id) {
+    (new HikeController())->editInfoHike($id);
 });
 
 

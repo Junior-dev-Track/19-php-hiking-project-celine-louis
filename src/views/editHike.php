@@ -9,7 +9,15 @@ error_reporting(E_ALL);
 
 <main>
     <h1><?php echo htmlspecialchars($hikesByUser->name); ?></h1>
-    <form action="edit-hike/submit-edit-hike" method="post" class="edit-hike">
+
+    <?php if (isset($_SESSION['message'])) : ?>
+        <div class="alert alert-info">
+            <?= htmlspecialchars($_SESSION['message']) ?>
+        </div>
+    <?php endif; ?>
+
+    <!-- <form action="edit-hike/<?= urlencode($id) ?>" method="post" class="edit-hike"> -->
+    <form action="<?php echo BASE_PATH; ?>/edit-hike/<?= urlencode($id) ?>" method="post" class="edit-hike">
         <label for="name">Name of the hike: </label>
         <input type="text" name="name" value="<?php echo htmlspecialchars($hikesByUser->name); ?>"><br>
 
@@ -31,6 +39,8 @@ error_reporting(E_ALL);
 
         <input type="submit" value="Valid edited hike">
     </form>
+    <!-- TODO -->
+    <a href="">Delete hike</a>
 </main>
 
 <?php $content = ob_get_clean(); ?>

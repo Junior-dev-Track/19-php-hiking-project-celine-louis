@@ -56,8 +56,9 @@ class HikeController
         $elevationGain = $_POST['elevationGain'];
         $description = $_POST['description'];
 
-        $hikesByUser = (new HikeRepository())->editHike($id, $name, $distance, $duration, $elevationGain, $description);
-        header("Location: /19-php-hiking-project-celine-louis/profile");
+        (new HikeRepository())->editHike($id, $name, $distance, $duration, $elevationGain, $description);
+
+        header('Location: /19-php-hiking-project-celine-louis/profile');
     }
 
 
