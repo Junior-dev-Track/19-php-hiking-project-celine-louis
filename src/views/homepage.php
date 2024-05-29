@@ -7,20 +7,20 @@ $title = "Hike project";
     <h1>Hike project</h1>
 
     <form action="/19-php-hiking-project-celine-louis/filter" method="post">
-        <select name="filter_tag">
-            <option value="">All Categories</option>
+        <select class="form-select" aria-label="Default select example" name="filter_tag">
+            <option selected value="">All Categories</option>
             <option value="mountain">Mountain</option>
             <option value="full nature">Full Nature</option>
             <option value="countryside">Countryside</option>
         </select>
-        <button type="submit">Filter</button>
+        <button class="btn btn-outline-primary" type="submit">Filter</button>
     </form>
 
     <?php if (!empty($hikes)) : ?>
         <?php foreach ($hikes as $hike) : ?>
             <div>
                 <h3>
-                    <a href="/19-php-hiking-project-celine-louis/hike/<?= urlencode($hike['id']) ?>">
+                    <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/19-php-hiking-project-celine-louis/hike/<?= urlencode($hike['id']) ?>">
                         <?= htmlspecialchars($hike['name']) ?>
                     </a>
                 </h3>
