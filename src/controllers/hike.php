@@ -56,9 +56,9 @@ class HikeController
         $duration = $_POST['duration'];
         $elevationGain = $_POST['elevationGain'];
         $description = $_POST['description'];
-        $tags = explode(',', $_POST['tags']);
+        $tag = $_POST['tag'];
 
-        (new HikeRepository())->editHike($id, $name, $distance, $duration, $elevationGain, $description, $tags);
+        (new HikeRepository())->editHike($id, $name, $distance, $duration, $elevationGain, $description, $tag);
 
         header('Location: /19-php-hiking-project-celine-louis/profile');
     }

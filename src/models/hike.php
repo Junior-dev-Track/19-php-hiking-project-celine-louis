@@ -145,7 +145,7 @@ class HikeRepository extends Database
         return $hikes;
     }
 
-    public function editHike($id, $name, $distance, $duration, $elevationGain, $description)
+    public function editHike($id, $name, $distance, $duration, $elevationGain, $description, $tag)
     {
         try {
             $params = [
@@ -167,7 +167,17 @@ class HikeRepository extends Database
                 WHERE id_hike = :id_hike",
                 $params
             );
-            $_SESSION['message'] = 'New hike added!';
+
+            $params2 = [
+                ":id_hike" => $id,
+                ":tag" => $tag,
+            ];
+            $stmt2 = $this->query(
+                "UPDATE tags SET tag = :tag WHERE id_hike = :id_hike",
+                $params2
+            );
+
+            $_SESSION['message'] = 'Hike edited!';
             // TODO TO TEST + add updated_at + tags
         } catch (Exception $e) {
             error_log($e->getMessage());

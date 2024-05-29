@@ -39,13 +39,14 @@ error_reporting(E_ALL);
         <label for="description">Description: </label>
         <textarea name="description" rows="7" cols="50"><?php echo htmlspecialchars($hikesByUser->description); ?></textarea><br>
 
-        <select name="tags" id="tags">
+        <select name="tag" id="tags">
             <?php foreach ($options as $value => $label) : ?>
                 <option value="<?php echo htmlspecialchars($value); ?>" <?php echo ($tagOfHike['tag'] == $value) ? 'selected' : ''; ?>>
                     <?php echo htmlspecialchars($label); ?>
                 </option>
             <?php endforeach; ?>
         </select>
+
 
         <input type="submit" value="Valid edited hike">
     </form>
