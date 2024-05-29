@@ -145,7 +145,6 @@ class HikeRepository extends Database
         return $hikes;
     }
 
-
     public function editHike($id, $name, $distance, $duration, $elevationGain, $description)
     {
         try {
@@ -175,5 +174,17 @@ class HikeRepository extends Database
         }
     }
 
-    // TODO : get tag(s) of hike
+    public function getTagOfHike($id)
+    {
+        $stmt = $this->query(
+            "SELECT id_tag, tag FROM tags WHERE id_hike = :id_hike",
+            ['id_hike' => $id]
+        );
+        $result = $stmt->fetch();
+        $tag = [
+            'id_tag' => $result['id_tag'],
+            'tag' => $result['tag']
+        ];
+        return $tag;
+    }
 }

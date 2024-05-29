@@ -45,6 +45,7 @@ class HikeController
     public function editInfoHikeForm($id)
     {
         $hikesByUser = (new HikeRepository())->getHike($id);
+        $tagOfHike = (new HikeRepository())->getTagOfHike($id);
         require('../src/views/editHike.php');
     }
 
@@ -55,29 +56,12 @@ class HikeController
         $duration = $_POST['duration'];
         $elevationGain = $_POST['elevationGain'];
         $description = $_POST['description'];
+        $tags = explode(',', $_POST['tags']);
 
-        (new HikeRepository())->editHike($id, $name, $distance, $duration, $elevationGain, $description);
+        (new HikeRepository())->editHike($id, $name, $distance, $duration, $elevationGain, $description, $tags);
 
         header('Location: /19-php-hiking-project-celine-louis/profile');
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public function addHike()
     {

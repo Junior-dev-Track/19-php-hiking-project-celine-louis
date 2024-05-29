@@ -31,6 +31,7 @@ class UserController
     public function logout()
     {
         unset($_SESSION['user']);
+        unset($_SESSION['message']);
         header('Location: /19-php-hiking-project-celine-louis/');
     }
 
