@@ -4,7 +4,11 @@
 
 <style>
     .message {
-        color: red;
+        color: #D8000C;
+        background-color: #FFBABA;
+        width: 100%;
+        height: 30px;
+        text-align: center;
     }
 </style>
 
@@ -12,7 +16,7 @@
     <h2 class="p-2">LOGIN</h2>
     <?php
     if (isset($_SESSION['message'])) {
-        echo '<p class="message">' . $_SESSION['message'] . '</p>';
+        echo '<p class="message">&#9940;' . $_SESSION['message'] . '&#9940;</p>';
         unset($_SESSION['message']);
     }
     ?>
