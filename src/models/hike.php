@@ -40,7 +40,7 @@ class HikeRepository extends Database
         try {
 
             // Execute the query to get id_hike and name from the hikes table
-            $stmt = $this->query("SELECT id_hike, name, distance, duration, elevation_gain FROM hikes");
+            $stmt = $this->query("SELECT id_hike, name, distance, duration, elevation_gain, id_user FROM hikes");
 
             // Initialize an empty array to hold the hikes
             $hikes = [];
@@ -56,7 +56,8 @@ class HikeRepository extends Database
                     'duration' => $result['duration'], // Correctly access the 'duration' column
                     'distance' => $result['distance'], // Correctly access the 'distance' column
                     'elevation_gain' => $result['elevation_gain'], // Correctly access the 'elevation_gain' column
-                    'tag' => $tag['tag']
+                    'tag' => $tag['tag'],
+                    'id_user' => $result['id_user']
                 ];
                 // echo $tempID . '<br>';
             }
