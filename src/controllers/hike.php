@@ -15,36 +15,39 @@ class HikeController
         $this->hikeRepo = new HikeRepository();
     }
 
-
-    public function listHikes()
-    {
-        $hikes = (new HikeRepository())->getListHikes();
+    public function homepage() {
+        $hikes = $this->hikeRepo->getListHikes();
+        $tags = $this->hikeRepo->getListOfTag();
         require('../src/views/homepage.php');
     }
 
     public function listHikesByUser()
     {
-        $hikesByUser = (new HikeRepository())->getListHikesByUser($_SESSION['user']['id']);
+        $hikesByUser = $this->hikeRepo->getListHikesByUser($_SESSION['user']['id']);
         require('../src/views/userProfile.php');
     }
 
     public function infoHike($id)
     {
-        $hike = (new HikeRepository())->getHike($id);
+        $hike = $this->hikeRepo->getHike($id);
         require('../src/views/hikeDetails.php');
     }
 
     public function filterHikes()
     {
         $tag = isset($_POST['filter_tag']) ? $_POST['filter_tag'] : '';
+        if ($tag == '')
+            header('Location: /19-php-hiking-project-celine-louis/');
         $hikes = $tag ? $this->hikeRepo->getHikesByTag($tag) : $this->hikeRepo->getListHikes();
+        $tags = $this->hikeRepo->getListOfTag();
         require '../src/views/homepage.php';
+        // header('Location: /19-php-hiking-project-celine-louis/');
     }
 
     public function editInfoHikeForm($id)
     {
-        $hikesByUser = (new HikeRepository())->getHike($id);
-        $tagOfHike = (new HikeRepository())->getTagOfHike($id);
+        $hikesByUser = $this->hikeRepo->getHike($id);
+        $tagOfHike = $this->hikeRepo->getTagOfHike($id);
         require('../src/views/editHike.php');
     }
 
@@ -57,7 +60,7 @@ class HikeController
         $description = $_POST['description'];
         $tag = $_POST['tag'];
 
-        (new HikeRepository())->editHike($id, $name, $distance, $duration, $elevationGain, $description, $tag);
+        $this->hikeRepo->editHike($id, $name, $distance, $duration, $elevationGain, $description, $tag);
 
         header('Location: /19-php-hiking-project-celine-louis/profile');
     }
@@ -78,7 +81,7 @@ class HikeController
 
     public function deleteHike($id)
     {
-        (new HikeRepository())->deleteHike($id);
+        $this->hikeRepo->deleteHike($id);
         header('Location: /19-php-hiking-project-celine-louis/profile');
     }
 }

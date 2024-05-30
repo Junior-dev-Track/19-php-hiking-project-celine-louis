@@ -20,23 +20,24 @@ $router = new AltoRouter();
 $router->setBasePath('/19-php-hiking-project-celine-louis');
 
 $hikeController = new HikeController();
+$userController = new UserController();
 
 $router->map('GET', '/', function () use ($hikeController) {
-    $hikeController->listHikes();
+    $hikeController->homepage();
 });
 
 // filter route
 $router->map('POST', '/filter', function () use ($hikeController) {
     $hikeController->filterHikes();
-}, 'filter');
+});
 
 // add User
 $router->map('GET', '/register', function () {
     require('../src/views/register.php');
 });
 
-$router->map('POST', '/register', function () {
-    $userController = (new UserController())->register();
+$router->map('POST', '/register', function () use ($userController) {
+    $userController->register();
     unset($_SESSION['message']);
 });
 
@@ -45,13 +46,13 @@ $router->map('GET', '/login', function () {
     require('../src/views/login.php');
 });
 
-$router->map('POST', '/login', function () {
-    $userController = (new UserController())->login();
+$router->map('POST', '/login', function () use ($userController) {
+    $userController->login();
 });
 
 // logout user 
-$router->map('GET', '/logout', function () {
-    $userController = (new UserController())->logout();
+$router->map('GET', '/logout', function () use ($userController) {
+    $userController->logout();
 });
 
 // user profile
@@ -64,23 +65,23 @@ $router->map('GET', '/profile/editProfile', function () {
     require('../src/views/editProfile.php');
 });
 
-$router->map('POST', '/profile/editProfile', function () {
-    $userController = (new UserController())->editProfile();
+$router->map('POST', '/profile/editProfile', function () use ($userController) {
+    $userController->editProfile();
     require('../src/views/userProfile.php');
 });
 
-$router->map('POST', '/profile/update-password', function () {
-    $userController = (new UserController())->editPassword();
+$router->map('POST', '/profile/update-password', function () use ($userController) {
+    $userController->editPassword();
     require('../src/views/userProfile.php');
 });
 
-$router->map('POST', '/profile/delete-account', function () {
-    $userController = (new UserController())->deleteAccount();
+$router->map('POST', '/profile/delete-account', function () use ($userController) {
+    $userController->deleteAccount();
 });
 
 // details hike
-$router->map('GET', '/hike/[:id]', function ($id) {
-    $hikeController = (new HikeController())->infoHike($id);
+$router->map('GET', '/hike/[:id]', function ($id) use ($hikeController) {
+    $hikeController->infoHike($id);
 });
 
 // Add a hike
@@ -88,22 +89,21 @@ $router->map('GET', '/addHike', function () {
     require('../src/views/addHike.php');
 });
 
-$router->map('POST', '/addHike', function () {
-    $hikeController = new HikeController();
+$router->map('POST', '/addHike', function () use ($hikeController) {
     $hikeController->addHike();
     header('Location: /19-php-hiking-project-celine-louis/profile');
 });
 // edit form
-$router->map('GET', '/edit-hike/[:id]', function ($id) {
-    (new HikeController())->editInfoHikeForm($id);
+$router->map('GET', '/edit-hike/[:id]', function ($id) use ($hikeController) {
+    $hikeController->editInfoHikeForm($id);
 });
 
-$router->map('POST', '/edit-hike/[:id]', function ($id) {
-    (new HikeController())->editInfoHike($id);
+$router->map('POST', '/edit-hike/[:id]', function ($id) use ($hikeController) {
+    $hikeController->editInfoHike($id);
 });
 
-$router->map('GET', '/deleteHike/[:id]', function ($id) {
-    (new HikeController())->deleteHike($id);
+$router->map('GET', '/deleteHike/[:id]', function ($id) use ($hikeController) {
+    $hikeController->deleteHike($id);
 });
 
 

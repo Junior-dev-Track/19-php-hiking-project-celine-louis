@@ -213,6 +213,22 @@ class HikeRepository extends Database
         }
     }
 
+    public function getListOfTag() : array
+    {
+        try {
+            $stmt = $this->query(
+                "SELECT tag FROM `tags` GROUP BY tag"
+            );
+            $tags = [];
+            while ($result = $stmt->fetch()) {
+                $tags[] = $result['tag'];
+            }
+            return $tags;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
+    }
+
     public function getTagOfHike($id)
     {
         try {
