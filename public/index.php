@@ -112,7 +112,16 @@ $router->map('GET', '/deleteHike/[:id]', function ($id) use ($hikeController) {
 
 $router->map('GET', '/admin', function () use ($userController, $hikeController) {
     $userController->manageAdmin();
-    // require('../src/views/admin.php');
+});
+
+$router->map('GET', '/admin/updateAdmin/[:id]/[:isAdmin]', function ($id, $isAdmin) use ($userController) {
+    $userController->updateAdmin($id, $isAdmin);
+    header('Location: /19-php-hiking-project-celine-louis/admin');
+});
+
+$router->map('GET', '/admin/deleteUser/[:id]', function ($id) use ($userController) {
+    $userController->deleteAccount($id);
+    header('Location: /19-php-hiking-project-celine-louis/admin');
 });
 
 

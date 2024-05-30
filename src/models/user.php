@@ -301,7 +301,7 @@ class User extends Database
         }
     }
 
-    public function deleteUser(string $password, string $passwordCheck)
+    public function deleteUser(string $password = null, string $passwordCheck = null)
     {
         if (isset($password, $passwordCheck) && !empty($password) && !empty($passwordCheck)) {
             $pwdUser = $this->getPassword($_SESSION['user']['id']);
@@ -349,6 +349,38 @@ class User extends Database
             return $users;
         } catch (Exception $e) {
             error_log($e->getMessage());
+        }
+    }
+
+    public function changeAdmin($id_user, $isAdmin)
+    {
+        switch ($isAdmin) {
+            case '1':
+                try {
+                    $param = [':id_user' => $id_user];
+                    $stmt = $this->query(
+                        "UPDATE users
+                        SET is_admin = 0
+                        WHERE id_user = :id_user",
+                        $param
+                    );
+                } catch (Exception $e) {
+                    error_log($e->getMessage());
+                }
+                break;
+            case '0':
+                try {
+                    $param = [':id_user' => $id_user];
+                    $stmt = $this->query(
+                        "UPDATE users
+                        SET is_admin = 1
+                        WHERE id_user = :id_user",
+                        $param
+                    );
+                } catch (Exception $e) {
+                    error_log($e->getMessage());
+                }
+                break;
         }
     }
 }

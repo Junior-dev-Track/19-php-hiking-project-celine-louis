@@ -10,6 +10,12 @@ error_reporting(E_ALL);
 <main>
     <h1>Admin pannel</h1>
 
+    <?php if (isset($_SESSION['message'])) : ?>
+        <div class="alert alert-info">
+            <?= htmlspecialchars($_SESSION['message']) ?>
+        </div>
+    <?php endif; ?>
+
     <section class="listUser">
         <h2>Manage users</h2>
         <table>
@@ -25,21 +31,23 @@ error_reporting(E_ALL);
 
             <?php foreach ($users as $user) : ?>
                 <tr>
-                    <td><?= $user['firstname']; ?></td>
-                    <td><?= $user['lastname']; ?></td>
-                    <td><?= $user['nickname']; ?></td>
-                    <td><?= $user['email']; ?></td>
-                    <td>
-                        <?php echo $user['isAdmin'] == 1 ? 'Yes' : 'No'; ?>
-                    </td>
-                    <td><a href="">Delete User</a></td>
-                    <td>
-                        <?php if ($user['isAdmin'] == 1) : ?>
-                            <a href="">Remove admin</a>
-                        <?php else : ?>
-                            <a href="">Add admin</a>
-                        <?php endif ?>
-                    </td>
+                    <?php if ($user['id_user'] != $_SESSION['user']['id']) : ?>
+                        <td><?= $user['firstname']; ?></td>
+                        <td><?= $user['lastname']; ?></td>
+                        <td><?= $user['nickname']; ?></td>
+                        <td><?= $user['email']; ?></td>
+                        <td>
+                            <?php echo $user['isAdmin'] == 1 ? 'Yes' : 'No'; ?>
+                        </td>
+                        <td><a href="<?php echo BASE_PATH; ?>/admin/deleteUser/<?= urlencode($user['id_user']) ?>">Delete User</a></td>
+                        <td>
+                            <?php if ($user['isAdmin'] == 1) : ?>
+                                <a href="<?php echo BASE_PATH; ?>/admin/updateAdmin/<?= urlencode($user['id_user']) ?>/<?= urlencode($user['isAdmin']) ?>">Remove admin</a>
+                            <?php else : ?>
+                                <a href="<?php echo BASE_PATH; ?>/admin/updateAdmin/<?= urlencode($user['id_user']) ?>/<?= urlencode($user['isAdmin']) ?>">Add admin</a>
+                            <?php endif ?>
+                        </td>
+                    <?php endif ?>
                 </tr>
             <?php endforeach; ?>
         </table>
