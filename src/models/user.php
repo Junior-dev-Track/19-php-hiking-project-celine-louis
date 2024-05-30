@@ -229,7 +229,7 @@ class User extends Database
                             "isAdmin" => $checkUserNickname['is_admin']
                         ];
                     } else {
-                        $_SESSION['message'] = 'Wrong login';
+                        $_SESSION['message'] = 'Wrong login or password';
                         require('../src/views/login.php');
                         exit;
                     }
