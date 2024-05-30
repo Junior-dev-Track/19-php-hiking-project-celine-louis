@@ -13,10 +13,10 @@ $title = "Hike project";
                 <form action="/19-php-hiking-project-celine-louis/filter" method="post">
                     <div class="d-flex justify-content-end">
                         <select class="form-select me-2" aria-label="Default select example" name="filter_tag">
-                            <option selected value="">All Categories</option>
-                            <option value="mountain">Mountain</option>
-                            <option value="full nature">Full Nature</option>
-                            <option value="countryside">Countryside</option>
+                            <option value="">All Categories</option>
+                            <?php foreach ($tags as $tag) : ?>
+                                <option value='<?php echo htmlspecialchars($tag) ?>'><?php echo htmlspecialchars($tag) ?></option>
+                            <?php endforeach ?>
                         </select>
                         <button class="btn btn-primary ms-2" type="submit">Filter</button>
                     </div>
@@ -42,8 +42,15 @@ $title = "Hike project";
                                     <p>&#129406;<?= htmlspecialchars($hike['distance']) ?>km</p>
                                     <p>&#128337;<?= htmlspecialchars($hike['duration']) ?>h</p>
                                     <p>&#128200;<?= htmlspecialchars($hike['elevation_gain']) ?>m</p>
+                                    <?php if (isset($hike['tag']) && $hike['tag'] != null) : ?>
+                                        <p><?= htmlspecialchars($hike['tag']) ?></p>
+                                    <?php endif; ?>
                                 </div>
                                 <a class="btn btn-primary w-50" href="/19-php-hiking-project-celine-louis/hike/<?= urlencode($hike['id']) ?>">Details</a>
+                                <?php if (isset($hike['id_user'], $_SESSION['user']) && $hike['id_user'] == $_SESSION['user']['id'] || isset($_SESSION['user']) && $_SESSION['user']['isAdmin'] == 1) : ?>
+                                    <a class="btn btn-outline-primary w-100" href="/19-php-hiking-project-celine-louis/edit-hike/<?= urlencode($hike['id']) ?>">Edit hike</a>
+                                <?php endif; ?>
+                                >>>>>>> 4ed53ffee940e74b5d27755bac961b2132181109
                             </div>
                         </div>
                     </div>

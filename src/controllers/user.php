@@ -71,4 +71,10 @@ class UserController
             header("Location: /19-php-hiking-project-celine-louis/profile");
         }
     }
+
+    public function listUser() {
+        $users = (new User())->getAllUsers();
+        var_dump($users);
+        require('../src/views/admin.php');
+    }
 }

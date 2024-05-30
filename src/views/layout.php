@@ -60,6 +60,11 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-danger border-danger" href="/19-php-hiking-project-celine-louis/logout">Logout</a>
                                 </li>
+                                <?php if ($_SESSION['user']['isAdmin'] == 1) : ?>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/19-php-hiking-project-celine-louis/admin">Admin</a>
+                                    </li>
+                                <?php endif ?>
                             <?php endif; ?>
                         </ul>
                     </div>

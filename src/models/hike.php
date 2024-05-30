@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Models;
 
 use Exception;
+use PDO;
 
 date_default_timezone_set('Europe/Berlin'); // Set the timezone to Coordinated Universal Time
 
@@ -18,8 +19,9 @@ class Hike extends Database
     public $description;
     public $createdAt;
     public $updatedAt;
+    public $id_user;
 
-    public function __construct($id, $name, $distance, $duration, $elevationGain, $description, $createdAt, $updatedAt)
+    public function __construct($id, $name, $distance, $duration, $elevationGain, $description, $createdAt, $updatedAt = '', $id_user = null)
     {
         $this->id = $id;
         $this->name = $name;
@@ -29,6 +31,7 @@ class Hike extends Database
         $this->description = $description;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+        $this->id_user = $id_user;
     }
 }
 
@@ -36,31 +39,34 @@ class HikeRepository extends Database
 {
     public function getListHikes(): array
     {
-        // Execute the query to get id_hike and name from the hikes table
-        $stmt = $this->query("SELECT id_hike, name, distance, duration, elevation_gain FROM hikes");
+        try {
+            $stmt = $this->query("SELECT id_hike, name, distance, duration, elevation_gain, id_user FROM hikes");
 
-        // Initialize an empty array to hold the hikes
-        $hikes = [];
+            $hikes = [];
 
-        // Fetch each row as an associative array
-        while ($result = $stmt->fetch()) {
-            $hikes[] = [
-                'id' => $result['id_hike'], // Correctly access the 'id_hike' column
-                'name' => $result['name'], // Correctly access the 'name' column
-                'duration' => $result['duration'], // Correctly access the 'name' column
-                'distance' => $result['distance'], // Correctly access the 'name' column
-                'elevation_gain' => $result['elevation_gain'] // Correctly access the 'name' column
-            ];
+            while ($result = $stmt->fetch()) {
+                $tag = $this->getTagOfHike($result['id_hike']);
+                if ($tag == null)
+                    $tag['tag'] = '';
+                $hikes[] = [
+                    'id' => $result['id_hike'], // Correctly access the 'id_hike' column
+                    'name' => $result['name'], // Correctly access the 'name' column
+                    'duration' => $result['duration'], // Correctly access the 'duration' column
+                    'distance' => $result['distance'], // Correctly access the 'distance' column
+                    'elevation_gain' => $result['elevation_gain'], // Correctly access the 'elevation_gain' column
+                    'tag' => $tag['tag'],
+                    'id_user' => $result['id_user']
+                ];
+            }
+            return $hikes;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
         }
-
-        // Return the array of hikes
-        return $hikes;
     }
 
     public function getListHikesByUser($id)
     {
         try {
-
             $param = ['id_user' => $id];
             $stmt = $this->query(
                 "SELECT id_hike, name FROM hikes WHERE id_user = :id_user",
@@ -98,7 +104,8 @@ class HikeRepository extends Database
                 $results['elevation_gain'],
                 $results['description'],
                 $results['created_at'],
-                $results['updated_at']
+                $results['updated_at'],
+                $results['id_user'],
             );
             return $hike;
         } catch (Exception $e) {
@@ -106,7 +113,7 @@ class HikeRepository extends Database
         }
     }
 
-    public function addHike(string $name, float $distance, int $duration, int $elevationGain, string $description, array $tags)
+    public function addHike(string $name, float $distance, int $duration, int $elevationGain, string $description, array $tags, string $newTag)
     {
         try {
             $paramsHike = [
@@ -127,20 +134,23 @@ class HikeRepository extends Database
 
             // Assuming tags are stored in a separate table and linked via id_hike
             foreach ($tags as $tag) {
-                $this->query(
-                    "INSERT INTO tags (tag, id_hike) VALUES (?,?)",
-                    [$tag, $hikeID]
-                );
+                if ($tag == '' && !empty($newTag)) {
+                    $this->query(
+                        "INSERT INTO tags (tag, id_hike) VALUES (?,?)",
+                        [$newTag, $hikeID]
+                    );
+                } else {
+                    $this->query(
+                        "INSERT INTO tags (tag, id_hike) VALUES (?,?)",
+                        [$tag, $hikeID]
+                    );
+                }
             }
             $_SESSION['message'] = 'New hike added!';
         } catch (Exception $e) {
-            // Log the error or handle it appropriately
             error_log($e->getMessage());
         }
     }
-
-
-
 
     public function getHikesByTag(string $tag): array
     {
@@ -161,7 +171,6 @@ class HikeRepository extends Database
                 'elevation_gain' => $result['elevation_gain']
             ];
         }
-
         return $hikes;
     }
 
@@ -200,7 +209,22 @@ class HikeRepository extends Database
             );
 
             $_SESSION['message'] = 'Hike edited!';
-            // TODO TO TEST + add updated_at + tags
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
+    }
+
+    public function getListOfTag() : array
+    {
+        try {
+            $stmt = $this->query(
+                "SELECT tag FROM `tags` GROUP BY tag"
+            );
+            $tags = [];
+            while ($result = $stmt->fetch()) {
+                $tags[] = $result['tag'];
+            }
+            return $tags;
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
@@ -208,16 +232,24 @@ class HikeRepository extends Database
 
     public function getTagOfHike($id)
     {
-        $stmt = $this->query(
-            "SELECT id_tag, tag FROM tags WHERE id_hike = :id_hike",
-            ['id_hike' => $id]
-        );
-        $result = $stmt->fetch();
-        $tag = [
-            'id_tag' => $result['id_tag'],
-            'tag' => $result['tag']
-        ];
-        return $tag;
+        try {
+            $stmt = $this->query(
+                "SELECT id_tag, tag FROM tags WHERE id_hike = :id_hike",
+                ['id_hike' => $id]
+            );
+            $result = $stmt->fetch();
+            if ($result && is_array($result)) {
+                $tag = [
+                    'id_tag' => $result['id_tag'],
+                    'tag' => $result['tag']
+                ];
+                return $tag;
+            } else {
+                throw new Exception("No result found for hike ID: $id");
+            }
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
     }
 
     public function deleteHike($id)
