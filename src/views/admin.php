@@ -13,11 +13,7 @@ error_reporting(E_ALL);
     <section class="listUser">
         <h2>Manage users</h2>
         <ul>
-            <?php foreach ($users as $user) : ?>
-                <li>
-                    
-                </li>
-            <?php endforeach ?>
+            
         </ul>
     </section>
 </main>
