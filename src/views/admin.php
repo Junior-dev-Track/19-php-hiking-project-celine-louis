@@ -8,50 +8,55 @@ error_reporting(E_ALL);
 ?>
 
 <main>
-    <h1>Admin pannel</h1>
+    <h2>Admin pannel</h2>
 
-    <section class="listUser">
-        <h2>Manage users</h2>
-        <table>
-            <tr>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>nickname</th>
-                <th>email</th>
-                <th>Administrator</th>
-                <th></th>
-                <th></th>
-            </tr>
-
-            <?php foreach ($users as $user) : ?>
+    <section class="listUser pt-3">
+        <h3>Manage users</h3>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td><?= $user['firstname']; ?></td>
-                    <td><?= $user['lastname']; ?></td>
-                    <td><?= $user['nickname']; ?></td>
-                    <td><?= $user['email']; ?></td>
-                    <td>
-                        <?php echo $user['isAdmin'] == 1 ? 'Yes' : 'No'; ?>
-                    </td>
-                    <td><a href="">Delete User</a></td>
-                    <td>
-                        <?php if ($user['isAdmin'] == 1) : ?>
-                            <a href="">Remove admin</a>
-                        <?php else : ?>
-                            <a href="">Add admin</a>
-                        <?php endif ?>
-                    </td>
+                    <th scope="col">#</th>
+                    <th scope="col">Firstname</th>
+                    <th scope="col">Lastname</th>
+                    <th scope="col">nickname</th>
+                    <th scope="col">email</th>
+                    <th scope="col">Administrator</th>
+                    <th scope="col">Delete</th>
+                    <th scope="col">Manage admin</th>
                 </tr>
-            <?php endforeach; ?>
+            </thead>
+            <tbody>
+                <?php foreach ($users as $user) : ?>
+                    <tr>
+                        <th scope="row">&#127183;</th>
+                        <td><?= $user['firstname']; ?></td>
+                        <td><?= $user['lastname']; ?></td>
+                        <td><?= $user['nickname']; ?></td>
+                        <td><?= $user['email']; ?></td>
+                        <td>
+                            <?php echo $user['isAdmin'] == 1 ? 'Yes' : 'No'; ?>
+                        </td>
+                        <td><a class="btn btn-danger" href="">Delete User</a></td>
+                        <td>
+                            <?php if ($user['isAdmin'] == 1) : ?>
+                                <a class="btn btn-warning" href="">Remove admin</a>
+                            <?php else : ?>
+                                <a class="btn btn-success px-3" href="">Add as admin</a>
+                            <?php endif ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
         </table>
     </section>
 
-    <section class="listTags">
-        <h2>Manage tags</h2>
+    <section class="listTags pt-3">
+        <h3>Manage tags</h3>
         <ul>
             <?php foreach ($tags as $tag) : ?>
-                <li>
+                <li class=" p-2">
                     <?php echo $tag; ?>
-                    <a href="">Delete tag</a>
+                    <a class="btn btn-danger" href="">Delete tag</a>
                 </li>
             <?php endforeach; ?>
         </ul>

@@ -4,11 +4,6 @@ $title = "Hike project - Add a hike";
 
 <?php ob_start(); ?>
 
-<!-- <style>
-    .btn btn-primary {
-    padding: 10px 20px;
-    }
-    </style> -->
 <main class="d-flex flex-column align-items-center w-100 gap-1 mb-3">
     <h2 class="p-2">Add a hike</h2>
     <form id="addHikeForm" action="" method="post" class="w-50">
