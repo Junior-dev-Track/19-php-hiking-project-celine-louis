@@ -29,7 +29,11 @@ error_reporting(E_ALL);
         <?php else :?>
             <p>Last edited: <?php echo (htmlspecialchars($hike->updatedAt)); ?></p>
         <?php endif ?>
-        <p>Created by <?php echo (htmlspecialchars($creator['firstname'])); ?> <?php echo (htmlspecialchars($creator['lastname'])); ?></p>
+        <?php if (isset($creator) && $creator != null) : ?>
+            <p>Created by <?php echo (htmlspecialchars($creator['firstname'])); ?> <?php echo (htmlspecialchars($creator['lastname'])); ?></p>
+        <?php endif ?>
+
+        <p><?php echo (htmlspecialchars($tags['tag'])); ?><p>
     </section>
 
 

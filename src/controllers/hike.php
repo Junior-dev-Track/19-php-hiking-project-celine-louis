@@ -31,7 +31,11 @@ class HikeController
     public function infoHike($id)
     {
         $hike = $this->hikeRepo->getHike($id);
-        $creator = (new User())->findUserByID($hike->id_user);
+        if ($hike->id_user != null)
+            $creator = (new User())->findUserByID($hike->id_user);
+        else 
+            $creator = null;
+        $tags = $this->hikeRepo->getTagOfHike($hike->id);
         require('../src/views/hikeDetails.php');
     }
 
@@ -66,6 +70,11 @@ class HikeController
         header('Location: /19-php-hiking-project-celine-louis/profile');
     }
 
+    public function tagsAddHike() {
+        $tags = $this->hikeRepo->getListOfTag();
+        require('../src/views/addHike.php');
+    }
+
     public function addHike()
     {
         $name = $_POST['name'];
@@ -75,9 +84,10 @@ class HikeController
         $description = $_POST['description'];
         // Split the tags string into an array based on commas
         $tags = explode(',', $_POST['tags']);
+        $newTag = $_POST['newTag'];
 
         // Pass the tags array to the addHike method
-        $this->hikeRepo->addHike($name, $distance, $duration, $elevation_gain, $description, $tags);
+        $this->hikeRepo->addHike($name, $distance, $duration, $elevation_gain, $description, $tags, $newTag);
     }
 
     public function deleteHike($id)
