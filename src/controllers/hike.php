@@ -19,7 +19,6 @@ class HikeController
     public function listHikes()
     {
         $hikes = (new HikeRepository())->getListHikes();
-
         require('../src/views/homepage.php');
     }
 

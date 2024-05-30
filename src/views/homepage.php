@@ -42,6 +42,9 @@ $title = "Hike project";
                                     <p>&#129406;<?= htmlspecialchars($hike['distance']) ?>km</p>
                                     <p>&#128337;<?= htmlspecialchars($hike['duration']) ?>h</p>
                                     <p>&#128285;<?= htmlspecialchars($hike['elevation_gain']) ?>m</p>
+                                    <?php if (isset($hike['tag']) && $hike['tag'] != null) : ?>
+                                        <p><?= htmlspecialchars($hike['tag']) ?></p>
+                                    <?php endif; ?>
                                 </div>
                                 <a class="btn btn-outline-primary w-100" href="/19-php-hiking-project-celine-louis/hike/<?= urlencode($hike['id']) ?>">Details</a>
                             </div>

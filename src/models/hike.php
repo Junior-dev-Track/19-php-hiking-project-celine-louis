@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Models;
 
 use Exception;
+use PDO;
 
 date_default_timezone_set('Europe/Berlin'); // Set the timezone to Coordinated Universal Time
 
@@ -36,31 +37,40 @@ class HikeRepository extends Database
 {
     public function getListHikes(): array
     {
-        // Execute the query to get id_hike and name from the hikes table
-        $stmt = $this->query("SELECT id_hike, name, distance, duration, elevation_gain FROM hikes");
+        try {
 
-        // Initialize an empty array to hold the hikes
-        $hikes = [];
+            // Execute the query to get id_hike and name from the hikes table
+            $stmt = $this->query("SELECT id_hike, name, distance, duration, elevation_gain FROM hikes");
 
-        // Fetch each row as an associative array
-        while ($result = $stmt->fetch()) {
-            $hikes[] = [
-                'id' => $result['id_hike'], // Correctly access the 'id_hike' column
-                'name' => $result['name'], // Correctly access the 'name' column
-                'duration' => $result['duration'], // Correctly access the 'name' column
-                'distance' => $result['distance'], // Correctly access the 'name' column
-                'elevation_gain' => $result['elevation_gain'] // Correctly access the 'name' column
-            ];
+            // Initialize an empty array to hold the hikes
+            $hikes = [];
+
+            // Fetch each row as an associative array
+            while ($result = $stmt->fetch()) {
+                $tag = $this->getTagOfHike($result['id_hike']);
+                if ($tag == null)
+                    $tag['tag'] = '';
+                $hikes[] = [
+                    'id' => $result['id_hike'], // Correctly access the 'id_hike' column
+                    'name' => $result['name'], // Correctly access the 'name' column
+                    'duration' => $result['duration'], // Correctly access the 'duration' column
+                    'distance' => $result['distance'], // Correctly access the 'distance' column
+                    'elevation_gain' => $result['elevation_gain'], // Correctly access the 'elevation_gain' column
+                    'tag' => $tag['tag']
+                ];
+                // echo $tempID . '<br>';
+            }
+
+            // Return the array of hikes
+            return $hikes;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
         }
-
-        // Return the array of hikes
-        return $hikes;
     }
 
     public function getListHikesByUser($id)
     {
         try {
-
             $param = ['id_user' => $id];
             $stmt = $this->query(
                 "SELECT id_hike, name FROM hikes WHERE id_user = :id_user",
@@ -139,9 +149,6 @@ class HikeRepository extends Database
         }
     }
 
-
-
-
     public function getHikesByTag(string $tag): array
     {
         $stmt = $this->query("
@@ -161,7 +168,6 @@ class HikeRepository extends Database
                 'elevation_gain' => $result['elevation_gain']
             ];
         }
-
         return $hikes;
     }
 
@@ -208,16 +214,27 @@ class HikeRepository extends Database
 
     public function getTagOfHike($id)
     {
-        $stmt = $this->query(
-            "SELECT id_tag, tag FROM tags WHERE id_hike = :id_hike",
-            ['id_hike' => $id]
-        );
-        $result = $stmt->fetch();
-        $tag = [
-            'id_tag' => $result['id_tag'],
-            'tag' => $result['tag']
-        ];
-        return $tag;
+        try {
+            $stmt = $this->query(
+                "SELECT id_tag, tag FROM tags WHERE id_hike = :id_hike",
+                ['id_hike' => $id]
+            );
+            $result = $stmt->fetch();
+            if ($result && is_array($result)) {
+                $tag = [
+                    'id_tag' => $result['id_tag'],
+                    'tag' => $result['tag']
+                ];
+                return $tag;
+            } else {
+                // Handle the case where no result was found
+                // You might want to throw an exception or return a default value here
+                throw new Exception("No result found for hike ID: $id");
+            }
+            // return $tag;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
     }
 
     public function deleteHike($id)

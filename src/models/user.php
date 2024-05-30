@@ -265,7 +265,7 @@ class User extends Database
 
                     $subjectEmail = 'Important Notice';
                     $bodyEmail = 'Your new password is updated.';
-                    // $this->sendEmail($subjectEmail, $bodyEmail);
+                    $this->sendEmail($subjectEmail, $bodyEmail);
                 } catch (Exception $e) {
                     error_log($e->getMessage());
                 }
