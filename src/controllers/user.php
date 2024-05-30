@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Models\HikeRepository;
 use Models\User;
 
 class UserController
@@ -72,9 +73,9 @@ class UserController
         }
     }
 
-    public function listUser() {
+    public function manageAdmin() {
         $users = (new User())->getAllUsers();
-        var_dump($users);
+        $tags = (new HikeRepository())->getListOfTag();
         require('../src/views/admin.php');
     }
 }
