@@ -2,8 +2,20 @@
 
 <?php ob_start(); ?>
 
+<style>
+    .message {
+        color: red;
+    }
+</style>
+
 <main class="d-flex flex-column align-items-center w-100 gap-1 mb-3">
     <h2 class="p-2">LOGIN</h2>
+    <?php
+    if (isset($_SESSION['message'])) {
+        echo '<p class="message">' . $_SESSION['message'] . '</p>';
+        unset($_SESSION['message']);
+    }
+    ?>
     <form id="loginForm" action="" method="post" class="w-50">
         <div class="input-group mb-3">
             <span class="input-group-text">&#128100;</span>
