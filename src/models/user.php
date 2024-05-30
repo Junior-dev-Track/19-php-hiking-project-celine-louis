@@ -343,7 +343,7 @@ class User extends Database
                     'lastname' => $result['lastname'],
                     'nickname' => $result['nickname'],
                     'email' => $result['email'],
-                    'is_admin' => $result['is_admin']
+                    'isAdmin' => $result['is_admin']
                 ];
             }
             return $users;
