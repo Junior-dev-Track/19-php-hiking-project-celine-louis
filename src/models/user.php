@@ -65,7 +65,8 @@ class User extends Database
                         "firstname" => $firstnamePost,
                         "lastname" => $lastnamePost,
                         "nickname" => $nicknamePost,
-                        "email" => $emailPost
+                        "email" => $emailPost,
+                        "isAdmin" => 0
                     ];
 
                     $subjectEmail = 'Welcome on the hike project website!';
@@ -203,7 +204,8 @@ class User extends Database
                             "firstname" => $checkUserEmail['firstname'],
                             "lastname" => $checkUserEmail['lastname'],
                             "nickname" => $checkUserEmail['nickname'],
-                            "email" => $checkUserEmail['email']
+                            "email" => $checkUserEmail['email'],
+                            "isAdmin" => $checkUserEmail['is_admin']
                         ];
                     } else {
                         $_SESSION['message'] = 'Wrong password';
@@ -223,7 +225,8 @@ class User extends Database
                             "firstname" => $checkUserNickname['firstname'],
                             "lastname" => $checkUserNickname['lastname'],
                             "nickname" => $checkUserNickname['nickname'],
-                            "email" => $checkUserNickname['email']
+                            "email" => $checkUserNickname['email'],
+                            "isAdmin" => $checkUserNickname['is_admin']
                         ];
                     } else {
                         echo '<p>Wrong login</p>';
@@ -323,6 +326,29 @@ class User extends Database
             } else {
                 $_SESSION['message'] = 'Wrong password';
             }
+        }
+    }
+
+    public function getAllUsers(): array
+    {
+        try {
+            $stmt = $this->query(
+                "SELECT id_user, firstname, lastname, nickname, email, is_admin FROM users"
+            );
+            $users = [];
+            while ($result = $stmt->fetch()) {
+                $users[] = [
+                    'id_user' => $result['id_user'],
+                    'firstname' => $result['firstname'],
+                    'lastname' => $result['lastname'],
+                    'nickname' => $result['nickname'],
+                    'email' => $result['email'],
+                    'is_admin' => $result['is_admin']
+                ];
+            }
+            return $users;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
         }
     }
 }

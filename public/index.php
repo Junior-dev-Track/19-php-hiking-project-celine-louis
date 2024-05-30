@@ -108,6 +108,14 @@ $router->map('GET', '/deleteHike/[:id]', function ($id) use ($hikeController) {
 });
 
 
+// Admin
+
+$router->map('GET', '/admin', function () use ($userController) {
+    $users = $userController->listUser();
+    // require('../src/views/admin.php');
+});
+
+
 
 
 //Route matching

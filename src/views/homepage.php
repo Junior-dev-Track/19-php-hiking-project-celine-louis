@@ -47,8 +47,8 @@ $title = "Hike project";
                                     <?php endif; ?>
                                 </div>
                                 <a class="btn btn-outline-primary w-100" href="/19-php-hiking-project-celine-louis/hike/<?= urlencode($hike['id']) ?>">Details</a>
-                                <?php if (isset($hike['id_user']) && isset($_SESSION['user']) && $hike['id_user'] == $_SESSION['user']['id']) : ?>
-                                    <a class="btn btn-outline-primary w-100" href="/19-php-hiking-project-celine-louis/edit-hike/<?= urlencode($hikeByUser['id']) ?>">Edit hike</a>
+                                <?php if (isset($hike['id_user'], $_SESSION['user']) && $hike['id_user'] == $_SESSION['user']['id'] || isset($_SESSION['user']) && $_SESSION['user']['isAdmin'] == 1) : ?>
+                                    <a class="btn btn-outline-primary w-100" href="/19-php-hiking-project-celine-louis/edit-hike/<?= urlencode($hike['id']) ?>">Edit hike</a>
                                 <?php endif; ?>
                             </div>
                         </div>

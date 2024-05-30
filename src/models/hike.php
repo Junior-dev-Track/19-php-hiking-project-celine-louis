@@ -40,14 +40,10 @@ class HikeRepository extends Database
     public function getListHikes(): array
     {
         try {
-
-            // Execute the query to get id_hike and name from the hikes table
             $stmt = $this->query("SELECT id_hike, name, distance, duration, elevation_gain, id_user FROM hikes");
 
-            // Initialize an empty array to hold the hikes
             $hikes = [];
 
-            // Fetch each row as an associative array
             while ($result = $stmt->fetch()) {
                 $tag = $this->getTagOfHike($result['id_hike']);
                 if ($tag == null)
@@ -62,8 +58,6 @@ class HikeRepository extends Database
                     'id_user' => $result['id_user']
                 ];
             }
-
-            // Return the array of hikes
             return $hikes;
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -154,7 +148,6 @@ class HikeRepository extends Database
             }
             $_SESSION['message'] = 'New hike added!';
         } catch (Exception $e) {
-            // Log the error or handle it appropriately
             error_log($e->getMessage());
         }
     }
@@ -216,7 +209,6 @@ class HikeRepository extends Database
             );
 
             $_SESSION['message'] = 'Hike edited!';
-            // TODO TO TEST + add updated_at + tags
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
