@@ -59,17 +59,21 @@ class UserController
         header("Location: /19-php-hiking-project-celine-louis/profile");
     }
 
-    public function deleteAccount()
+    public function deleteAccount($id = null)
     {
-        $password = $_POST['password'];
-        $passwordCheck = $_POST['passwordCheck'];
-
-        $user = (new User())->deleteUser($password, $passwordCheck);
-        if ($_SESSION['message'] === 'Account deleted') {
-            $this->logout();
-            header('Location: /19-php-hiking-project-celine-louis');
+        if ($id == null) {
+            $password = $_POST['password'];
+            $passwordCheck = $_POST['passwordCheck'];
+    
+            $user = (new User())->deleteUser($password, $passwordCheck);
+            if ($_SESSION['message'] === 'Account deleted') {
+                $this->logout();
+                header('Location: /19-php-hiking-project-celine-louis');
+            } else {
+                header("Location: /19-php-hiking-project-celine-louis/profile");
+            }
         } else {
-            header("Location: /19-php-hiking-project-celine-louis/profile");
+            $user = (new User())->deleteUser(null, null, $id);
         }
     }
 
@@ -77,5 +81,9 @@ class UserController
         $users = (new User())->getAllUsers();
         $tags = (new HikeRepository())->getListOfTag();
         require('../src/views/admin.php');
+    }
+
+    public function updateAdmin($id_user, $isAdmin) {
+        $users = (new User())->changeAdmin($id_user, $isAdmin);
     }
 }

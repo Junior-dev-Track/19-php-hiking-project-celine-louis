@@ -9,7 +9,6 @@ error_reporting(E_ALL);
 
 <main>
     <h2>Admin pannel</h2>
-
     <section class="listUser pt-3">
         <h3>Manage users</h3>
         <table class="table">
@@ -54,10 +53,12 @@ error_reporting(E_ALL);
         <h3>Manage tags</h3>
         <ul>
             <?php foreach ($tags as $tag) : ?>
-                <li class=" p-2">
-                    <?php echo $tag; ?>
-                    <a class="btn btn-danger" href="">Delete tag</a>
-                </li>
+                <?php if ($tag != null) : ?>
+                    <li class=" p-2">
+                        <?php echo $tag; ?>
+                        <a class="btn btn-danger" href="<?php echo BASE_PATH; ?>/admin/deleteTag/<?= urlencode($tag) ?>">Delete tag</a>
+                    </li>
+                <?php endif; ?>
             <?php endforeach; ?>
         </ul>
     </section>
