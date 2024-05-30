@@ -87,7 +87,6 @@ $router->map('GET', '/hike/[:id]', function ($id) use ($hikeController) {
 // Add a hike
 $router->map('GET', '/addHike', function () use ($hikeController) {
     $hikeController->tagsAddHike();
-    // require('../src/views/addHike.php');
 });
 
 $router->map('POST', '/addHike', function () use ($hikeController) {

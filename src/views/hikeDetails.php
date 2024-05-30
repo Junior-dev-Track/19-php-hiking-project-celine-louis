@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 
 <main>
     <section>
-    <h1><?php echo htmlspecialchars($hike->name); ?></h1>
+        <h1><?php echo htmlspecialchars($hike->name); ?></h1>
         <h2>Overview</h2>
         <ul>
             <li><strong>Distance:</strong> <?php echo htmlspecialchars($hike->distance); ?> km</li>
@@ -26,14 +26,16 @@ error_reporting(E_ALL);
         <h2>Info</h2>
         <?php if (!isset($hike->updatedAt)) : ?>
             <p>Added at <?php echo (htmlspecialchars($hike->createdAt)); ?></p>
-        <?php else :?>
+        <?php else : ?>
             <p>Last edited: <?php echo (htmlspecialchars($hike->updatedAt)); ?></p>
         <?php endif ?>
         <?php if (isset($creator) && $creator != null) : ?>
             <p>Created by <?php echo (htmlspecialchars($creator['firstname'])); ?> <?php echo (htmlspecialchars($creator['lastname'])); ?></p>
         <?php endif ?>
 
-        <p><?php echo (htmlspecialchars($tags['tag'])); ?><p>
+        <?php if (isset($tags) && $tags['tag'] != null) : ?>
+            <p><?php echo (htmlspecialchars($tags['tag'])); ?></p>
+        <?php endif ?>
     </section>
 
 
