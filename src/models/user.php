@@ -151,6 +151,29 @@ class User extends Database
         }
     }
 
+    public function findUserByID(int $id)
+    {
+        try {
+            $param = [':id_user' => $id];
+            $stmt = $this->query(
+                "SELECT firstname, lastname FROM users WHERE id_user = :id_user",
+                $param
+            );
+            $result = $stmt->fetch();
+            if ($result && is_array($result)) {
+                $user = [
+                    'firstname' => $result['firstname'],
+                    'lastname' => $result['lastname']
+                ];
+                return $user;
+            } else {
+                throw new Exception("No result found for user ID: $id");
+            }
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
+    }
+
     private function getPassword($id)
     {
         try {

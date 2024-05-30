@@ -20,7 +20,17 @@ error_reporting(E_ALL);
     <section>
         <h2>Description</h2>
         <p><?php echo (htmlspecialchars($hike->description)); ?></p>
-    </section> 
+    </section>
+
+    <section>
+        <h2>Info</h2>
+        <?php if (!isset($hike->updatedAt)) : ?>
+            <p>Added at <?php echo (htmlspecialchars($hike->createdAt)); ?></p>
+        <?php else :?>
+            <p>Last edited: <?php echo (htmlspecialchars($hike->updatedAt)); ?></p>
+        <?php endif ?>
+        <p>Created by <?php echo (htmlspecialchars($creator['firstname'])); ?> <?php echo (htmlspecialchars($creator['lastname'])); ?></p>
+    </section>
 
 
 </main>

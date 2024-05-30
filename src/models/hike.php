@@ -19,8 +19,9 @@ class Hike extends Database
     public $description;
     public $createdAt;
     public $updatedAt;
+    public $id_user;
 
-    public function __construct($id, $name, $distance, $duration, $elevationGain, $description, $createdAt, $updatedAt)
+    public function __construct($id, $name, $distance, $duration, $elevationGain, $description, $createdAt, $updatedAt = '', $id_user = null)
     {
         $this->id = $id;
         $this->name = $name;
@@ -30,6 +31,7 @@ class Hike extends Database
         $this->description = $description;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+        $this->id_user = $id_user;
     }
 }
 
@@ -59,7 +61,6 @@ class HikeRepository extends Database
                     'tag' => $tag['tag'],
                     'id_user' => $result['id_user']
                 ];
-                // echo $tempID . '<br>';
             }
 
             // Return the array of hikes
@@ -109,7 +110,8 @@ class HikeRepository extends Database
                 $results['elevation_gain'],
                 $results['description'],
                 $results['created_at'],
-                $results['updated_at']
+                $results['updated_at'],
+                $results['id_user'],
             );
             return $hike;
         } catch (Exception $e) {
@@ -244,11 +246,8 @@ class HikeRepository extends Database
                 ];
                 return $tag;
             } else {
-                // Handle the case where no result was found
-                // You might want to throw an exception or return a default value here
                 throw new Exception("No result found for hike ID: $id");
             }
-            // return $tag;
         } catch (Exception $e) {
             error_log($e->getMessage());
         }

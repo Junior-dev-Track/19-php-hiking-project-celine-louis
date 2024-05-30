@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Models\Hike;
 use Models\HikeRepository;
+use Models\User;
 
 class HikeController
 {
@@ -30,6 +31,7 @@ class HikeController
     public function infoHike($id)
     {
         $hike = $this->hikeRepo->getHike($id);
+        $creator = (new User())->findUserByID($hike->id_user);
         require('../src/views/hikeDetails.php');
     }
 
@@ -41,7 +43,6 @@ class HikeController
         $hikes = $tag ? $this->hikeRepo->getHikesByTag($tag) : $this->hikeRepo->getListHikes();
         $tags = $this->hikeRepo->getListOfTag();
         require '../src/views/homepage.php';
-        // header('Location: /19-php-hiking-project-celine-louis/');
     }
 
     public function editInfoHikeForm($id)
