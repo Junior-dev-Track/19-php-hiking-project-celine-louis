@@ -8,30 +8,26 @@ error_reporting(E_ALL);
 ?>
 
 <main>
-    <h1>Admin pannel</h1>
-
-    <?php if (isset($_SESSION['message'])) : ?>
-        <div class="alert alert-info">
-            <?= htmlspecialchars($_SESSION['message']) ?>
-        </div>
-    <?php endif; ?>
-
-    <section class="listUser">
-        <h2>Manage users</h2>
-        <table>
-            <tr>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>nickname</th>
-                <th>email</th>
-                <th>Administrator</th>
-                <th></th>
-                <th></th>
-            </tr>
-
-            <?php foreach ($users as $user) : ?>
+    <h2>Admin pannel</h2>
+    <section class="listUser pt-3">
+        <h3>Manage users</h3>
+        <table class="table">
+            <thead>
                 <tr>
-                    <?php if ($user['id_user'] != $_SESSION['user']['id']) : ?>
+                    <th scope="col">#</th>
+                    <th scope="col">Firstname</th>
+                    <th scope="col">Lastname</th>
+                    <th scope="col">nickname</th>
+                    <th scope="col">email</th>
+                    <th scope="col">Administrator</th>
+                    <th scope="col">Delete</th>
+                    <th scope="col">Manage admin</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($users as $user) : ?>
+                    <tr>
+                        <th scope="row">&#127183;</th>
                         <td><?= $user['firstname']; ?></td>
                         <td><?= $user['lastname']; ?></td>
                         <td><?= $user['nickname']; ?></td>
@@ -39,28 +35,28 @@ error_reporting(E_ALL);
                         <td>
                             <?php echo $user['isAdmin'] == 1 ? 'Yes' : 'No'; ?>
                         </td>
-                        <td><a href="<?php echo BASE_PATH; ?>/admin/deleteUser/<?= urlencode($user['id_user']) ?>">Delete User</a></td>
+                        <td><a class="btn btn-danger" href="">Delete User</a></td>
                         <td>
                             <?php if ($user['isAdmin'] == 1) : ?>
-                                <a href="<?php echo BASE_PATH; ?>/admin/updateAdmin/<?= urlencode($user['id_user']) ?>/<?= urlencode($user['isAdmin']) ?>">Remove admin</a>
+                                <a class="btn btn-warning" href="">Remove admin</a>
                             <?php else : ?>
-                                <a href="<?php echo BASE_PATH; ?>/admin/updateAdmin/<?= urlencode($user['id_user']) ?>/<?= urlencode($user['isAdmin']) ?>">Add admin</a>
+                                <a class="btn btn-success px-3" href="">Add as admin</a>
                             <?php endif ?>
                         </td>
-                    <?php endif ?>
-                </tr>
-            <?php endforeach; ?>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
         </table>
     </section>
 
-    <section class="listTags">
-        <h2>Manage tags</h2>
+    <section class="listTags pt-3">
+        <h3>Manage tags</h3>
         <ul>
             <?php foreach ($tags as $tag) : ?>
                 <?php if ($tag != null) : ?>
-                    <li>
+                    <li class=" p-2">
                         <?php echo $tag; ?>
-                        <a href="<?php echo BASE_PATH; ?>/admin/deleteTag/<?= urlencode($tag) ?>">Delete tag</a>
+                        <a class="btn btn-danger" href="<?php echo BASE_PATH; ?>/admin/deleteTag/<?= urlencode($tag) ?>">Delete tag</a>
                     </li>
                 <?php endif; ?>
             <?php endforeach; ?>

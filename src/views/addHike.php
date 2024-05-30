@@ -4,11 +4,6 @@ $title = "Hike project - Add a hike";
 
 <?php ob_start(); ?>
 
-<!-- <style>
-    .btn btn-primary {
-    padding: 10px 20px;
-    }
-    </style> -->
 <main class="d-flex flex-column align-items-center w-100 gap-1 mb-3">
     <h2 class="p-2">Add a hike</h2>
     <form id="addHikeForm" action="" method="post" class="w-50">
@@ -49,7 +44,14 @@ $title = "Hike project - Add a hike";
                 <?php endforeach ?>
             </select>
         </div>
-        <input type="text" id="newTag" name="newTag" placeholder="Add a new tag"><br>
+        <div class="input-group mb-3">
+            <span class="input-group-text">&#128278;</span>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInputGroup5" name="newTag" placeholder="Add a new tag">
+                <label for="floatingInputGroup5" class="form-label">New category</label>
+            </div>
+        </div>
+
         <div class="input-group">
             <span class="input-group-text">&#128221;</span>
             <textarea class="form-control" aria-label="With textarea" name="description"></textarea>

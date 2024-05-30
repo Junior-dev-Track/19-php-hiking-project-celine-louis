@@ -44,7 +44,7 @@ error_reporting(E_ALL);
                 </div>
             </div>
             <div class="d-flex flex-column align-items-center gap-2">
-                <input class="btn btn-primary w-25" type="submit" value="Valid edited profile">
+                <input class="btn btn-primary w-30" type="submit" value="Valid edited profile">
             </div>
         </form>
 
@@ -73,7 +73,7 @@ error_reporting(E_ALL);
                     </div>
                 </div>
                 <div class="d-flex flex-column align-items-center gap-2">
-                    <input class="btn btn-primary w-25" type="submit" value="Valid new password">
+                    <input class="btn btn-primary w-30" type="submit" value="Valid new password">
                 </div>
             </form>
 
@@ -95,7 +95,7 @@ error_reporting(E_ALL);
                         </div>
                     </div>
                     <div class="d-flex flex-column align-items-center gap-2">
-                        <input class="btn btn-danger w-25" type="submit" value="Delete account">
+                        <input class="btn btn-danger w-30" type="submit" value="Delete account">
                     </div>
                 </form>
             </section>
