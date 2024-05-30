@@ -49,7 +49,14 @@ $title = "Hike project - Add a hike";
                 <?php endforeach ?>
             </select>
         </div>
-        <input type="text" id="newTag" name="newTag" placeholder="Add a new tag"><br>
+        <div class="input-group mb-3">
+            <span class="input-group-text">&#128278;</span>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInputGroup5" name="newTag" placeholder="Add a new tag">
+                <label for="floatingInputGroup5" class="form-label">New category</label>
+            </div>
+        </div>
+
         <div class="input-group">
             <span class="input-group-text">&#128221;</span>
             <textarea class="form-control" aria-label="With textarea" name="description"></textarea>

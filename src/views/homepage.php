@@ -2,6 +2,9 @@
 $title = "Hike project";
 ?>
 
+<style>
+
+</style>
 <?php ob_start(); ?>
 <main class="w-100">
     <div class="container">
@@ -33,23 +36,32 @@ $title = "Hike project";
             <?php if (!empty($hikes)) : ?>
                 <?php foreach ($hikes as $hike) : ?>
                     <div class="col-md-4">
-                        <div class="card" style="width: 18rem;">
+                        <div class="card" style="width: 18rem; height: 14rem;">
                             <div class="card-body w-100 d-flex flex-column align-items-center">
-                                <h5 class="card-title">
+                                <h5 class="card-title d-flex flex-row align-items-center gap-2">
                                     <?= htmlspecialchars($hike['name']) ?>
+                                    <?php if (isset($hike['id_user'], $_SESSION['user']) && $hike['id_user'] == $_SESSION['user']['id'] || isset($_SESSION['user']) && $_SESSION['user']['isAdmin'] == 1) : ?>
+                                        <a class="icon-link" href="/19-php-hiking-project-celine-louis/edit-hike/<?= urlencode($hike['id']) ?>">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                            </svg>
+                                        </a>
+                                    <?php endif; ?>
+
                                 </h5>
-                                <div class="d-flex flex-row gap-3 align-items-center justify-content-center p-2">
+                                <div class="d-flex flex-row gap-3 align-items-center justify-content-center pt-3">
                                     <p>&#129406;<?= htmlspecialchars($hike['distance']) ?>km</p>
                                     <p>&#128337;<?= htmlspecialchars($hike['duration']) ?>h</p>
                                     <p>&#128200;<?= htmlspecialchars($hike['elevation_gain']) ?>m</p>
-                                    <?php if (isset($hike['tag']) && $hike['tag'] != null) : ?>
-                                        <p><?= htmlspecialchars($hike['tag']) ?></p>
-                                    <?php endif; ?>
                                 </div>
-                                <a class="btn btn-primary w-50" href="/19-php-hiking-project-celine-louis/hike/<?= urlencode($hike['id']) ?>">Details</a>
-                                <?php if (isset($hike['id_user'], $_SESSION['user']) && $hike['id_user'] == $_SESSION['user']['id'] || isset($_SESSION['user']) && $_SESSION['user']['isAdmin'] == 1) : ?>
-                                    <a class="btn btn-outline-primary w-100" href="/19-php-hiking-project-celine-louis/edit-hike/<?= urlencode($hike['id']) ?>">Edit hike</a>
+                                <?php if (isset($hike['tag']) && $hike['tag'] != null) : ?>
+                                    <p class="pb-3">&#128278;<?= htmlspecialchars($hike['tag']) ?></p>
                                 <?php endif; ?>
+
+                                <div class="d-flex flex-row align-items-center">
+                                    <a class="btn btn-primary " href="/19-php-hiking-project-celine-louis/hike/<?= urlencode($hike['id']) ?>">Details</a>
+                                </div>
                             </div>
                         </div>
                     </div>
