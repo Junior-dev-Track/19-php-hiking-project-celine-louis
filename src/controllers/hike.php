@@ -95,4 +95,8 @@ class HikeController
         $this->hikeRepo->deleteHike($id);
         header('Location: /19-php-hiking-project-celine-louis/profile');
     }
+
+    public function deleteTag($tag) {
+        $this->hikeRepo->tagToNull($tag);
+    }
 }

@@ -230,6 +230,21 @@ class HikeRepository extends Database
         }
     }
 
+    public function tagToNull($tag) {
+        try {
+            $param = [':tag' => $tag];
+
+            $this->query(
+                "UPDATE tags
+                SET tag = NULL
+                WHERE tag = :tag",
+                $param
+            );
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
+    }
+
     public function getTagOfHike($id)
     {
         try {

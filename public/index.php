@@ -124,6 +124,11 @@ $router->map('GET', '/admin/deleteUser/[:id]', function ($id) use ($userControll
     header('Location: /19-php-hiking-project-celine-louis/admin');
 });
 
+$router->map('GET', '/admin/deleteTag/[:tag]', function ($tag) use ($hikeController) {
+    $hikeController->deleteTag($tag);
+    header('Location: /19-php-hiking-project-celine-louis/admin');
+});
+
 
 
 

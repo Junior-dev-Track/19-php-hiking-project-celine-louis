@@ -57,10 +57,12 @@ error_reporting(E_ALL);
         <h2>Manage tags</h2>
         <ul>
             <?php foreach ($tags as $tag) : ?>
-                <li>
-                    <?php echo $tag; ?>
-                    <a href="">Delete tag</a>
-                </li>
+                <?php if ($tag != null) : ?>
+                    <li>
+                        <?php echo $tag; ?>
+                        <a href="<?php echo BASE_PATH; ?>/admin/deleteTag/<?= urlencode($tag) ?>">Delete tag</a>
+                    </li>
+                <?php endif; ?>
             <?php endforeach; ?>
         </ul>
     </section>

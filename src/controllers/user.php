@@ -73,7 +73,7 @@ class UserController
                 header("Location: /19-php-hiking-project-celine-louis/profile");
             }
         } else {
-            $user = (new User())->deleteUser();
+            $user = (new User())->deleteUser(null, null, $id);
         }
     }
 
