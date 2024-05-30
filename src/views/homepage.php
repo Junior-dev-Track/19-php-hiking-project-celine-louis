@@ -50,7 +50,6 @@ $title = "Hike project";
                                 <?php if (isset($hike['id_user'], $_SESSION['user']) && $hike['id_user'] == $_SESSION['user']['id'] || isset($_SESSION['user']) && $_SESSION['user']['isAdmin'] == 1) : ?>
                                     <a class="btn btn-outline-primary w-100" href="/19-php-hiking-project-celine-louis/edit-hike/<?= urlencode($hike['id']) ?>">Edit hike</a>
                                 <?php endif; ?>
-                                >>>>>>> 4ed53ffee940e74b5d27755bac961b2132181109
                             </div>
                         </div>
                     </div>
