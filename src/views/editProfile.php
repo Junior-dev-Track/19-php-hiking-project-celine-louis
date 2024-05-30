@@ -7,39 +7,98 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 ?>
 
-<main>
-    <h1>Edit your profile</h1>
+<main class="d-flex flex-column align-items-center w-100 gap-1">
+    <h2 class="p-2">Edit your profile</h1>
 
-    <form action="<?php echo BASE_PATH; ?>/profile/editProfile" method="post" class="edit-hike">
-        <label for="firstname">Firstname: </label>
-        <input type="text" name="firstname" value="<?php echo htmlspecialchars($_SESSION['user']['firstname']); ?>"><br>
+        <form action="<?php echo BASE_PATH; ?>/profile/editProfile" method="post" class="w-50">
+            <div class="input-group mb-3">
+                <span class="input-group-text">&#128100;</span>
+                <div class="form-floating">
+                    <input class="form-control" id="floatingInputGroup1" type="text" name="firstname" value="<?php echo htmlspecialchars($_SESSION['user']['firstname']); ?>">
+                    <label for="floatingInputGroup2" class="form-label">Firstname: </label>
 
-        <label for="lastname">Lastname: </label>
-        <input type="text" name="lastname" value="<?php echo htmlspecialchars($_SESSION['user']['lastname']); ?>"><br>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">&#128100;</span>
+                <div class="form-floating">
+                    <input class="form-control" id="floatingInputGroup1" type="text" name="lastname" value="<?php echo htmlspecialchars($_SESSION['user']['lastname']); ?>">
+                    <label for="floatingInputGroup2" class="form-label">Lastname: </label>
 
-        <label for="email">Email: </label>
-        <input type="email" name="email" value="<?php echo htmlspecialchars($_SESSION['user']['email']); ?>"><br>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">&#128231;</span>
+                <div class="form-floating">
+                    <input class="form-control" id="floatingInputGroup1" type="email" name="email" value="<?php echo htmlspecialchars($_SESSION['user']['email']); ?>">
+                    <label for="floatingInputGroup2" class="form-label">Email: </label>
 
-        <label for="email">Enter your password to confirm your changes: </label>
-        <input type="password" id="password" name="password" placeholder="Password"><br>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">&#128274;</span>
+                <div class="form-floating">
+                    <input class="form-control" id="floatingInputGroup1" type="password" id="password" name="password" placeholder="Password">
+                    <label for="floatingInputGroup2" class="form-label">Enter your password to confirm your changes: </label>
 
-        <input type="submit" value="Valid edited profile">
-    </form>
+                </div>
+            </div>
+            <div class="d-flex flex-column align-items-center gap-2">
+                <input class="btn btn-primary w-25" type="submit" value="Valid edited profile">
+            </div>
+        </form>
 
-    <h2>Edit your password</h2>
-    <form action="<?php echo BASE_PATH; ?>/profile/update-password" method="post">
-        <input type="password" id="password" name="oldPassword" placeholder="Old password"><br>
-        <input type="password" id="password" name="newPassword" placeholder="New password"><br>
-        <input type="password" id="password" name="newPasswordCheck" placeholder="Check new password"><br>
-        <input type="submit" value="Valid new email">
-    </form>
+        <section class="d-flex flex-column align-items-center w-100 gap-1 mt-5">
+            <h2 class="p-2">Edit your password</h2>
+            <form action="<?php echo BASE_PATH; ?>/profile/update-password" method="post" class="w-50">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">&#128116;</span>
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="floatingInputGroup1" name="oldPassword" placeholder="Old password">
+                        <label for="floatingInputGroup1" class="form-label">Old password: </label>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">&#128118;</span>
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="floatingInputGroup2" name="newPassword" placeholder="New password">
+                        <label for="floatingInputGroup2" class="form-label">New password: </label>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">&#128269;</span>
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="floatingInputGroup3" name="newPasswordCheck" placeholder="Check new password">
+                        <label for="floatingInputGroup3" class="form-label">Confirm password: </label>
+                    </div>
+                </div>
+                <div class="d-flex flex-column align-items-center gap-2">
+                    <input class="btn btn-primary w-25" type="submit" value="Valid new password">
+                </div>
+            </form>
 
-    <h2>Delete your account</h2>
-    <form action="<?php echo BASE_PATH; ?>/profile/delete-account" method="post">
-        <input type="password" id="password" name="password" placeholder="Password"><br>
-        <input type="password" id="password" name="passwordCheck" placeholder="Check password"><br>
-        <input type="submit" value="Delete your account">
-    </form>
+            <section class="d-flex flex-column align-items-center w-100 gap-1 mt-5">
+                <h2 class="p-2">Delete your account</h2>
+                <form action="<?php echo BASE_PATH; ?>/profile/delete-account" method="post" class="w-50">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">&#128274;</span>
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="floatingInputGroup1" name="password" placeholder="Password">
+                            <label for="floatingInputGroup1" class="form-label">Enter password: </label>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">&#128269;</span>
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="floatingInputGroup2" name="passwordCheck" placeholder="Check password">
+                            <label for="floatingInputGroup2" class="form-label">Confirm password: </label>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column align-items-center gap-2">
+                        <input class="btn btn-danger w-25" type="submit" value="Delete account">
+                    </div>
+                </form>
+            </section>
 </main>
 
 <?php $content = ob_get_clean(); ?>
