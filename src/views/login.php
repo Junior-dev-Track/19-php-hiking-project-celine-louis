@@ -19,7 +19,7 @@
                 <label for="floatingInputGroup2" class="form-label">Password</label>
             </div>
         </div>
-        <button class="btn btn-outline-primary w-100" type="submit">Login</button>
+        <button class="btn btn-primary w-100" type="submit">Login</button>
     </form>
 </main>
 

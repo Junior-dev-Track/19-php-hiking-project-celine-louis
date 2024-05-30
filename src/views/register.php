@@ -47,7 +47,7 @@
             </div>
         </div>
         <!-- TODO : check password twice -->
-        <button class="btn btn-outline-primary w-100" type="submit">Register</button>
+        <button class="btn btn-primary w-100" type="submit">Register</button>
     </form>
 </main>
 

@@ -18,7 +18,7 @@ $title = "Hike project";
                                 <option value='<?php echo htmlspecialchars($tag) ?>'><?php echo htmlspecialchars($tag) ?></option>
                             <?php endforeach ?>
                         </select>
-                        <button class="btn btn-outline-primary ms-2" type="submit">Filter</button>
+                        <button class="btn btn-primary ms-2" type="submit">Filter</button>
                     </div>
                 </form>
             </div>
@@ -29,24 +29,24 @@ $title = "Hike project";
 
 
     <div class="container mt-5">
-        <div class="row justify-content-center align-items-center g-3">
+        <div class="row justify-content-center align-items-center g-5">
             <?php if (!empty($hikes)) : ?>
                 <?php foreach ($hikes as $hike) : ?>
                     <div class="col-md-4">
                         <div class="card" style="width: 18rem;">
-                            <div class="card-body w-100">
+                            <div class="card-body w-100 d-flex flex-column align-items-center">
                                 <h5 class="card-title">
                                     <?= htmlspecialchars($hike['name']) ?>
                                 </h5>
                                 <div class="d-flex flex-row gap-3 align-items-center justify-content-center p-2">
                                     <p>&#129406;<?= htmlspecialchars($hike['distance']) ?>km</p>
                                     <p>&#128337;<?= htmlspecialchars($hike['duration']) ?>h</p>
-                                    <p>&#128285;<?= htmlspecialchars($hike['elevation_gain']) ?>m</p>
+                                    <p>&#128200;<?= htmlspecialchars($hike['elevation_gain']) ?>m</p>
                                     <?php if (isset($hike['tag']) && $hike['tag'] != null) : ?>
                                         <p><?= htmlspecialchars($hike['tag']) ?></p>
                                     <?php endif; ?>
                                 </div>
-                                <a class="btn btn-outline-primary w-100" href="/19-php-hiking-project-celine-louis/hike/<?= urlencode($hike['id']) ?>">Details</a>
+                                <a class="btn btn-primary w-50" href="/19-php-hiking-project-celine-louis/hike/<?= urlencode($hike['id']) ?>">Details</a>
                                 <?php if (isset($hike['id_user'], $_SESSION['user']) && $hike['id_user'] == $_SESSION['user']['id'] || isset($_SESSION['user']) && $_SESSION['user']['isAdmin'] == 1) : ?>
                                     <a class="btn btn-outline-primary w-100" href="/19-php-hiking-project-celine-louis/edit-hike/<?= urlencode($hike['id']) ?>">Edit hike</a>
                                 <?php endif; ?>
