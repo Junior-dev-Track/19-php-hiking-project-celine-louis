@@ -2,8 +2,23 @@
 
 <?php ob_start(); ?>
 
+<style>
+    .message {
+        color: #D8000C;
+        width: 100%;
+        height: 30px;
+        text-align: center;
+    }
+</style>
+
 <main class="d-flex flex-column align-items-center w-100 gap-1">
     <h2 class="p-2">REGISTER</h2>
+    <?php
+    if (isset($_SESSION['message'])) {
+        echo '<p class="message">&#9940;' . $_SESSION['message'] . '&#9940;</p>';
+        unset($_SESSION['message']);
+    }
+    ?>
     <form id="registerForm" action="" method="post" class="w-50">
         <div class="input-group mb-3">
             <span class="input-group-text">&#128100;</span>

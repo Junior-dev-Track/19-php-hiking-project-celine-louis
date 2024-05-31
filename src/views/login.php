@@ -5,7 +5,6 @@
 <style>
     .message {
         color: #D8000C;
-        background-color: #FFBABA;
         width: 100%;
         height: 30px;
         text-align: center;

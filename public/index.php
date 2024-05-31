@@ -14,7 +14,7 @@ error_reporting(E_ALL);
 
 session_start();
 
-define('BASE_PATH', '/19-php-hiking-project-celine-louis'); 
+define('BASE_PATH', '/19-php-hiking-project-celine-louis');
 $router = new AltoRouter();
 
 $router->setBasePath('/19-php-hiking-project-celine-louis');
@@ -67,12 +67,12 @@ $router->map('GET', '/profile/editProfile', function () {
 
 $router->map('POST', '/profile/editProfile', function () use ($userController) {
     $userController->editProfile();
-    require('../src/views/userProfile.php');
+    //require('../src/views/userProfile.php');
 });
 
 $router->map('POST', '/profile/update-password', function () use ($userController) {
     $userController->editPassword();
-    require('../src/views/userProfile.php');
+    //require('../src/views/userProfile.php');
 });
 
 $router->map('POST', '/profile/delete-account', function () use ($userController) {

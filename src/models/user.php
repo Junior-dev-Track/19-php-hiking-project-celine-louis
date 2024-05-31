@@ -229,7 +229,7 @@ class User extends Database
                             "isAdmin" => $checkUserNickname['is_admin']
                         ];
                     } else {
-                        $_SESSION['message'] = 'Wrong login or password';
+                        $_SESSION['message'] = 'Email/Nickname or password not valid';
                         require('../src/views/login.php');
                         exit;
                     }
@@ -268,6 +268,7 @@ class User extends Database
                 }
             } else {
                 $_SESSION['message'] = 'Wrong password';
+                require '../src/views/editProfile.php';
             }
         }
     }
@@ -326,7 +327,7 @@ class User extends Database
             } else {
                 $_SESSION['message'] = 'Wrong password';
             }
-        } 
+        }
         // Delete by admin
         else {
             try {

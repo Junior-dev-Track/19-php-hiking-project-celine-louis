@@ -57,7 +57,7 @@ class HikeRepository extends Database
                     // 'tag' => $tag['tag'],
                     'id_user' => $result['id_user']
                 ];
-                foreach($tag as $elem) {
+                foreach ($tag as $elem) {
                     if ($elem == null)
                         $elem['tag'] = '';
                     $tagsHikes[] = [

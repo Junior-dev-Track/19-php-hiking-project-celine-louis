@@ -35,12 +35,12 @@ error_reporting(E_ALL);
                         <td>
                             <?php echo $user['isAdmin'] == 1 ? 'Yes' : 'No'; ?>
                         </td>
-                        <td><a class="btn btn-danger" href="">Delete User</a></td>
+                        <td><a class="btn btn-danger" href="<?php echo BASE_PATH; ?>/admin/deleteUser/<?= urlencode($user['id_user']) ?>">Delete User</a></td>
                         <td>
                             <?php if ($user['isAdmin'] == 1) : ?>
-                                <a class="btn btn-warning" href="">Remove admin</a>
+                                <a class="btn btn-warning" href="<?php echo BASE_PATH; ?>/admin/updateAdmin/<?= urlencode($user['id_user']) ?>/<?= urlencode($user['isAdmin']) ?>">Remove admin</a>
                             <?php else : ?>
-                                <a class="btn btn-success px-3" href="">Add as admin</a>
+                                <a class="btn btn-success px-3" href="<?php echo BASE_PATH; ?>/admin/updateAdmin/<?= urlencode($user['id_user']) ?>/<?= urlencode($user['isAdmin']) ?>">Add as admin</a>
                             <?php endif ?>
                         </td>
                     </tr>
