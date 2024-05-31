@@ -16,13 +16,6 @@ error_reporting(E_ALL);
         </div>
     <?php endif; ?>
 
-    <?php $options = [
-        "Mountain" => "Mountain",
-        "Countryside" => "Countryside",
-        "Full nature" => "Full nature"
-    ]; ?>
-
-    <!-- <form action="edit-hike/<?= urlencode($id) ?>" method="post" class="edit-hike"> -->
     <form action="<?php echo BASE_PATH; ?>/edit-hike/<?= urlencode($id) ?>" method="post" class="edit-hike w-50">
         <div class="input-group mb-3">
             <span class="input-group-text">&#128100;</span>
@@ -56,16 +49,36 @@ error_reporting(E_ALL);
 
             </div>
         </div>
-        <div class="input-group mb-3 mt-3">
-            <span class="input-group-text">&#128507;</span>
-            <select name="tag" id="inputGroupSelect03" class="form-select" aria-label="Example select with button addon">
-                <?php foreach ($options as $value => $label) : ?>
-                    <option value="<?php echo htmlspecialchars($value); ?>" <?php echo ($tagOfHike['tag'] == $value) ? 'selected' : ''; ?>>
-                        <?php echo htmlspecialchars($label); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+
+        <?php foreach ($tagsOfHike as $index => $tagOfHike) : ?>
+            <div class="input-group mb-3 mt-3">
+                <span class="input-group-text">&#128507;</span>
+                <!-- Append the index to the name attribute to make it unique -->
+                <select name="tags[<?= $index; ?>]" id="inputGroupSelect03" class="form-select" aria-label="Example select with button addon">
+                    <option value="">All Categories</option>
+                    <?php foreach ($tags as $tag) : ?>
+                        <?php if ($tag == $tagOfHike['tag']) : ?>
+                            <option value='<?php echo htmlspecialchars($tag . "," . $tagOfHike['id_tag']) ?>' selected><?php echo htmlspecialchars($tag) ?></option>
+                        <?php else : ?>
+                            <option value='<?php echo htmlspecialchars($tag . "," . $tagOfHike['id_tag']) ?>'><?php echo htmlspecialchars($tag) ?></option>
+                        <?php endif ?>
+                    <?php endforeach ?>
+                </select>
+            </div>
+        <?php endforeach ?>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">&#128278;</span>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInputGroup5" name="newTag" placeholder="Add a new tag">
+                <label for="floatingInputGroup5" class="form-label">New category</label>
+            </div>
         </div>
+
+        <!-- Other tags -->
+        <button type="button" id="addTagButton" onclick="addTagField()">Add New Tag</button>
+        <div id="dynamicTagsContainer"></div>
+
         <div class="input-group">
             <span class="input-group-text">&#128221;</span>
             <textarea name="description" class="form-control" aria-label="With textarea"><?php echo htmlspecialchars($hikesByUser->description); ?></textarea>
@@ -80,6 +93,31 @@ error_reporting(E_ALL);
             </div>
         </div>
     </form>
+
+    <script>
+        function addTagField() {
+            const container = document.getElementById('dynamicTagsContainer');
+
+            const newDiv = document.createElement('div');
+            newDiv.className = "input-group mb-3";
+            container.appendChild(newDiv);
+
+            const newSpan = document.createElement('span');
+            newSpan.className = "input-group-text";
+            newSpan.textContent = '🔖';
+            newDiv.appendChild(newSpan);
+
+
+            const newTagField = document.createElement('input');
+            newTagField.type = 'text';
+            newTagField.className = 'form-control';
+            newTagField.id = "floatingInputGroup5";
+            newTagField.name = 'tags[]';
+            newTagField.placeholder = 'New category';
+
+            newDiv.appendChild(newTagField);
+        }
+    </script>
 
 </main>
 

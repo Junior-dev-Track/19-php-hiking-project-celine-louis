@@ -35,10 +35,12 @@ error_reporting(E_ALL);
             <?php endif ?>
             <?php if (isset($tags['tag'])) : ?>
                 <li class="list-group-item"><strong>&#128278; Tag : </strong><?php echo (htmlspecialchars($tags['tag'])); ?></li>
-
-            <?php else : ?>
-                <li class="list-group-item"><strong>&#128278; Tag : </strong> No tag</li>
             <?php endif ?>
+            <li class="list-group-item"><strong>&#128278; Tag : </strong>
+                <?php foreach ($tags as $tag) : ?>
+                    <?php echo $tag['tag']; ?>
+                <?php endforeach ?>
+            </li>
         </ul>
     </section>
 

@@ -73,7 +73,6 @@ class UserController
             $oldPassword = $_POST['oldPassword'];
             $newPassword = $_POST['newPassword'];
             $newPasswordCheck = $_POST['newPasswordCheck'];
-
             $user = (new User())->setPassword($oldPassword, $newPassword, $newPasswordCheck);
             header("Location: /19-php-hiking-project-celine-louis/profile");
         } else {

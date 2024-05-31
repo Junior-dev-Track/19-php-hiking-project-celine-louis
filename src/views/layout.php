@@ -74,6 +74,7 @@
 
         <div class="content-wrap">
             <?= $content ?>
+            <!-- <script src="newTag.js"></script> -->
         </div>
 
         <footer class="bg-body-tertiary text-center text-lg-start mt-3">

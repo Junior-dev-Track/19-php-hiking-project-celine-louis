@@ -327,6 +327,26 @@ class User extends Database
             } else {
                 $_SESSION['message'] = 'Wrong password';
             }
+        } 
+        // Delete by admin
+        else {
+            try {
+                $param = [':id_user' => $id];
+                // delete his id from hikes
+                $stmt = $this->query(
+                    'UPDATE hikes SET id_user = NULL where id_user = :id_user',
+                    $param
+                );
+                // delete the user
+                $stmt = $this->query(
+                    "DELETE FROM users WHERE id_user = :id_user",
+                    $param
+                );
+
+                $_SESSION['message'] = 'Account deleted';
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+            }
         }
         // Delete by admin
         else {
