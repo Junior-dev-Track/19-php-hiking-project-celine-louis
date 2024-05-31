@@ -57,8 +57,10 @@ $title = "Hike project";
                                     <p>&#128200;<?= htmlspecialchars($hike['elevation_gain']) ?>m</p>
                                 </div>
                                 <?php if (isset($tagsHikes)) : ?>
-                                    <?php foreach ($tagsHikes as $tag) : ?>
-                                        <p class="pb-3">&#128278;<?= htmlspecialchars($tag) ?></p>
+                                    <?php foreach ($tagsHikes as $tags) : ?>
+                                        <?php if ($tags['id_hike'] == $hike['id']) : ?>
+                                            <p class="pb-3">&#128278;<?= htmlspecialchars($tags['tag']) ?></p>
+                                        <?php endif ?>
                                     <?php endforeach ?>
                                 <?php endif; ?>
 
