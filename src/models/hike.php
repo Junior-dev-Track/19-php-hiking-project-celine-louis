@@ -135,7 +135,7 @@ class HikeRepository extends Database
             // Assuming tags are stored in a separate table and linked via id_hike
             foreach ($tags as $tag) {
                 if ($tag == '' && !empty($newTag)) {
-                    foreach($newTag as $elem) {
+                    foreach ($newTag as $elem) {
                         $this->query(
                             "INSERT INTO tags (tag, id_hike) VALUES (?,?)",
                             [$elem, $hikeID]
@@ -201,36 +201,43 @@ class HikeRepository extends Database
                 $params
             );
 
-            
-            if ($tags == '' && !empty($newTag)) {
-                foreach($newTag as $elem) {
+            // handle tags in selector
+            foreach ($tags as $tag) {
+                if ($tag != '') {
                     $params2 = [
                         ":id_hike" => $id,
-                        ":tag" => $elem,
+                        ":tag" => $tag,
                     ];
-                    $this->query(
-                        "INSERT INTO tags (tag, id_hike) VALUES (?,?)",
-                        [$elem, $id]
+                    // TODO ad where id_tag ...
+                    $stmt2 = $this->query(
+                        "UPDATE tags SET tag = :tag WHERE id_hike = :id_hike",
+                        $params2
                     );
                 }
-            } else {
-                $params2 = [
-                    ":id_hike" => $id,
-                    ":tag" => $tag,
-                ];
-                $stmt2 = $this->query(
-                    "UPDATE tags SET tag = :tag WHERE id_hike = :id_hike",
-                    $params2
-                );
+            }
+
+            // handle tags added by user
+            if (!empty($newTag)) {
+                foreach ($newTag as $tag) {
+                    $params2 = [
+                        ":id_hike" => $id,
+                        ":tag" => $tag,
+                    ];
+                    $this->query(
+                        "INSERT INTO tags (tag, id_hike) VALUES (:tag,:id_hike)",
+                        $params2
+                    );
+                }
             }
 
             $_SESSION['message'] = 'Hike edited!';
         } catch (Exception $e) {
             error_log($e->getMessage());
+            $_SESSION['message'] = 'Problem during edit';
         }
     }
 
-    public function getListOfTag() : array
+    public function getListOfTag(): array
     {
         try {
             $stmt = $this->query(
@@ -247,7 +254,8 @@ class HikeRepository extends Database
         }
     }
 
-    public function tagToNull($tag) {
+    public function tagToNull($tag)
+    {
         try {
             $param = [':tag' => $tag];
 
@@ -269,17 +277,12 @@ class HikeRepository extends Database
                 "SELECT id_tag, tag FROM tags WHERE id_hike = :id_hike",
                 ['id_hike' => $id]
             );
-            // $result = $stmt->fetch();
             $tags = [];
             while ($result = $stmt->fetch()) {
-                // if ($result && is_array($result)) {
-                    $tags[] = [
-                        'id_tag' => $result['id_tag'],
-                        'tag' => $result['tag']
-                    ];
-                // } else {
-                //     throw new Exception("No result found for hike ID: $id");
-                // }
+                $tags[] = [
+                    'id_tag' => $result['id_tag'],
+                    'tag' => $result['tag']
+                ];
             }
             return $tags;
         } catch (Exception $e) {

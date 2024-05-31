@@ -50,7 +50,7 @@ error_reporting(E_ALL);
             </div>
         </div>
 
-        <!-- <?php foreach ($tagsOfHike as $tagOfHike) : ?> -->
+        <?php foreach ($tagsOfHike as $tagOfHike) : ?>
             <div class="input-group mb-3 mt-3">
                 <span class="input-group-text">&#128507;</span>
                 <select name="tags[]" id="inputGroupSelect03" class="form-select" aria-label="Example select with button addon">
@@ -64,7 +64,7 @@ error_reporting(E_ALL);
                     <?php endforeach ?>
                 </select>
             </div>
-        <!-- <?php endforeach ?> -->
+        <?php endforeach ?>
 
         <div class="input-group mb-3">
             <span class="input-group-text">&#128278;</span>
