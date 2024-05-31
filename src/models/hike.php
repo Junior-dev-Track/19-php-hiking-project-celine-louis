@@ -45,20 +45,25 @@ class HikeRepository extends Database
             $hikes = [];
 
             while ($result = $stmt->fetch()) {
-                $tag = $this->getTagOfHike($result['id_hike']);
-                if ($tag == null)
-                    $tag['tag'] = '';
+                $tag = $this->getTagsOfHike($result['id_hike']);
+                // var_dump($tag[0]['tag']);
                 $hikes[] = [
                     'id' => $result['id_hike'], // Correctly access the 'id_hike' column
                     'name' => $result['name'], // Correctly access the 'name' column
                     'duration' => $result['duration'], // Correctly access the 'duration' column
                     'distance' => $result['distance'], // Correctly access the 'distance' column
                     'elevation_gain' => $result['elevation_gain'], // Correctly access the 'elevation_gain' column
-                    'tag' => $tag['tag'],
+                    // 'tag' => $tag['tag'],
                     'id_user' => $result['id_user']
                 ];
+                $tagsHikes = [];
+                foreach($tag as $elem) {
+                    if ($elem == null)
+                        $elem['tag'] = '';
+                    $tagsHikes[] = $elem['tag'];
+                }
             }
-            return $hikes;
+            return [$hikes, $tagsHikes];
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
@@ -113,7 +118,7 @@ class HikeRepository extends Database
         }
     }
 
-    public function addHike(string $name, float $distance, int $duration, int $elevationGain, string $description, array $tags, string $newTag)
+    public function addHike(string $name, float $distance, int $duration, int $elevationGain, string $description, array $tags, array $newTag)
     {
         try {
             $paramsHike = [
@@ -135,10 +140,12 @@ class HikeRepository extends Database
             // Assuming tags are stored in a separate table and linked via id_hike
             foreach ($tags as $tag) {
                 if ($tag == '' && !empty($newTag)) {
-                    $this->query(
-                        "INSERT INTO tags (tag, id_hike) VALUES (?,?)",
-                        [$newTag, $hikeID]
-                    );
+                    foreach ($newTag as $elem) {
+                        $this->query(
+                            "INSERT INTO tags (tag, id_hike) VALUES (?,?)",
+                            [$elem, $hikeID]
+                        );
+                    }
                 } else {
                     $this->query(
                         "INSERT INTO tags (tag, id_hike) VALUES (?,?)",
@@ -174,7 +181,7 @@ class HikeRepository extends Database
         return $hikes;
     }
 
-    public function editHike($id, $name, $distance, $duration, $elevationGain, $description, $tag)
+    public function editHike($id, $name, $distance, $duration, $elevationGain, $description, $tags, $newTag)
     {
         try {
             $params = [
@@ -199,22 +206,45 @@ class HikeRepository extends Database
                 $params
             );
 
-            $params2 = [
-                ":id_hike" => $id,
-                ":tag" => $tag,
-            ];
-            $stmt2 = $this->query(
-                "UPDATE tags SET tag = :tag WHERE id_hike = :id_hike",
-                $params2
-            );
+            // handle tags in selector            
+            foreach ($tags as $tag) {
+                if ($tag['tag'] != '') {
+                    $params2 = [
+                        ":id_hike" => $id,
+                        ":tag" => $tag['tag'],
+                        ":id" => $tag['id_tag']
+                    ];
+                    $stmt2 = $this->query(
+                        "UPDATE tags SET tag = :tag WHERE id_hike = :id_hike AND id_tag = :id",
+                        $params2
+                    );
+                }
+            }
+
+            // handle tags added by user
+            if (!empty($newTag)) {
+                foreach ($newTag as $tag) {
+                    if ($tag !== '') {
+                        $params2 = [
+                            ":id_hike" => $id,
+                            ":tag" => $tag,
+                        ];
+                        $this->query(
+                            "INSERT INTO tags (tag, id_hike) VALUES (:tag,:id_hike)",
+                            $params2
+                        );
+                    }
+                }
+            }
 
             $_SESSION['message'] = 'Hike edited!';
         } catch (Exception $e) {
             error_log($e->getMessage());
+            $_SESSION['message'] = 'Problem during edit';
         }
     }
 
-    public function getListOfTag() : array
+    public function getListOfTag(): array
     {
         try {
             $stmt = $this->query(
@@ -222,7 +252,8 @@ class HikeRepository extends Database
             );
             $tags = [];
             while ($result = $stmt->fetch()) {
-                $tags[] = $result['tag'];
+                if ($result['tag'] != null)
+                    $tags[] = $result['tag'];
             }
             return $tags;
         } catch (Exception $e) {
@@ -230,7 +261,8 @@ class HikeRepository extends Database
         }
     }
 
-    public function tagToNull($tag) {
+    public function tagToNull($tag)
+    {
         try {
             $param = [':tag' => $tag];
 
@@ -245,23 +277,21 @@ class HikeRepository extends Database
         }
     }
 
-    public function getTagOfHike($id)
+    public function getTagsOfHike($id): array
     {
         try {
             $stmt = $this->query(
                 "SELECT id_tag, tag FROM tags WHERE id_hike = :id_hike",
                 ['id_hike' => $id]
             );
-            $result = $stmt->fetch();
-            if ($result && is_array($result)) {
-                $tag = [
+            $tags = [];
+            while ($result = $stmt->fetch()) {
+                $tags[] = [
                     'id_tag' => $result['id_tag'],
                     'tag' => $result['tag']
                 ];
-                return $tag;
-            } else {
-                throw new Exception("No result found for hike ID: $id");
             }
+            return $tags;
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
