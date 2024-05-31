@@ -36,7 +36,8 @@ $title = "Hike project";
             <?php if (!empty($hikes)) : ?>
                 <?php foreach ($hikes as $hike) : ?>
                     <div class="col-md-4">
-                        <div class="card" style="width: 18rem; height: 14rem;">
+                        <div class="card" style="width: 18rem;">
+                            <img src="https://images.pexels.com/photos/551851/pexels-photo-551851.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" class="card-img-top" alt="Mountain landscape">
                             <div class="card-body w-100 d-flex flex-column align-items-center">
                                 <h5 class="card-title d-flex flex-row align-items-center gap-2">
                                     <?= htmlspecialchars($hike['name']) ?>
