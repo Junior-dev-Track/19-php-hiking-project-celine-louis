@@ -46,19 +46,24 @@ class HikeRepository extends Database
 
             while ($result = $stmt->fetch()) {
                 $tag = $this->getTagsOfHike($result['id_hike']);
-                if ($tag == null)
-                    $tag['tag'] = '';
+                // var_dump($tag[0]['tag']);
                 $hikes[] = [
                     'id' => $result['id_hike'], // Correctly access the 'id_hike' column
                     'name' => $result['name'], // Correctly access the 'name' column
                     'duration' => $result['duration'], // Correctly access the 'duration' column
                     'distance' => $result['distance'], // Correctly access the 'distance' column
                     'elevation_gain' => $result['elevation_gain'], // Correctly access the 'elevation_gain' column
-                    'tag' => $tag['tag'],
+                    // 'tag' => $tag['tag'],
                     'id_user' => $result['id_user']
                 ];
+                $tagsHikes = [];
+                foreach($tag as $elem) {
+                    if ($elem == null)
+                        $elem['tag'] = '';
+                    $tagsHikes[] = $elem['tag'];
+                }
             }
-            return $hikes;
+            return [$hikes, $tagsHikes];
         } catch (Exception $e) {
             error_log($e->getMessage());
         }

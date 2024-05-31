@@ -55,8 +55,10 @@ $title = "Hike project";
                                     <p>&#128337;<?= htmlspecialchars($hike['duration']) ?>h</p>
                                     <p>&#128200;<?= htmlspecialchars($hike['elevation_gain']) ?>m</p>
                                 </div>
-                                <?php if (isset($hike['tag']) && $hike['tag'] != null) : ?>
-                                    <p class="pb-3">&#128278;<?= htmlspecialchars($hike['tag']) ?></p>
+                                <?php if (isset($tagsHikes)) : ?>
+                                    <?php foreach ($tagsHikes as $tag) : ?>
+                                        <p class="pb-3">&#128278;<?= htmlspecialchars($tag) ?></p>
+                                    <?php endforeach ?>
                                 <?php endif; ?>
 
                                 <div class="d-flex flex-row align-items-center">

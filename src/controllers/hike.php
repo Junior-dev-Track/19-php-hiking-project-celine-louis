@@ -18,8 +18,9 @@ class HikeController
 
     public function homepage()
     {
-        $hikes = $this->hikeRepo->getListHikes();
+        [$hikes, $tagsHikes] = $this->hikeRepo->getListHikes();
         $tags = $this->hikeRepo->getListOfTag();
+        // var_dump($hikes[0]);
         require('../src/views/homepage.php');
     }
 
