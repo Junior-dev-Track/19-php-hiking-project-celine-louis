@@ -67,12 +67,12 @@ $router->map('GET', '/profile/editProfile', function () {
 
 $router->map('POST', '/profile/editProfile', function () use ($userController) {
     $userController->editProfile();
-    require('../src/views/userProfile.php');
+    //require('../src/views/userProfile.php');
 });
 
 $router->map('POST', '/profile/update-password', function () use ($userController) {
     $userController->editPassword();
-    require('../src/views/userProfile.php');
+    //require('../src/views/userProfile.php');
 });
 
 $router->map('POST', '/profile/delete-account', function () use ($userController) {

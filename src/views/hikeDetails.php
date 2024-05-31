@@ -33,9 +33,12 @@ error_reporting(E_ALL);
             <?php if (isset($creator) && $creator != null) : ?>
                 <li class="list-group-item"><strong>&#128100; Created by : </strong> <?php echo (htmlspecialchars($creator['firstname'])); ?> <?php echo (htmlspecialchars($creator['lastname'])); ?></li>
             <?php endif ?>
+            <?php if (isset($tags['tag'])) : ?>
+                <li class="list-group-item"><strong>&#128278; Tag : </strong><?php echo (htmlspecialchars($tags['tag'])); ?></li>
 
-            <li class="list-group-item"><strong>&#128278; Tag : </strong><?php echo (htmlspecialchars($tags['tag'])); ?>
-            </li>
+            <?php else : ?>
+                <li class="list-group-item"><strong>&#128278; Tag : </strong> No tag</li>
+            <?php endif ?>
         </ul>
     </section>
 

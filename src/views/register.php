@@ -2,6 +2,15 @@
 
 <?php ob_start(); ?>
 
+<style>
+    .message {
+        color: #D8000C;
+        width: 100%;
+        height: 30px;
+        text-align: center;
+    }
+</style>
+
 <main class="d-flex flex-column align-items-center w-100 gap-1">
     <h2 class="p-2">REGISTER</h2>
     <?php
