@@ -16,7 +16,8 @@ class HikeController
         $this->hikeRepo = new HikeRepository();
     }
 
-    public function homepage() {
+    public function homepage()
+    {
         $hikes = $this->hikeRepo->getListHikes();
         $tags = $this->hikeRepo->getListOfTag();
         require('../src/views/homepage.php');
@@ -33,7 +34,7 @@ class HikeController
         $hike = $this->hikeRepo->getHike($id);
         if ($hike->id_user != null)
             $creator = (new User())->findUserByID($hike->id_user);
-        else 
+        else
             $creator = null;
         $tags = $this->hikeRepo->getTagOfHike($hike->id);
         require('../src/views/hikeDetails.php');
@@ -70,7 +71,8 @@ class HikeController
         header('Location: /19-php-hiking-project-celine-louis/profile');
     }
 
-    public function tagsAddHike() {
+    public function tagsAddHike()
+    {
         $tags = $this->hikeRepo->getListOfTag();
         require('../src/views/addHike.php');
     }
@@ -94,5 +96,10 @@ class HikeController
     {
         $this->hikeRepo->deleteHike($id);
         header('Location: /19-php-hiking-project-celine-louis/profile');
+    }
+
+    public function deleteTag($tag)
+    {
+        $this->hikeRepo->tagToNull($tag);
     }
 }
