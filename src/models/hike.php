@@ -113,7 +113,7 @@ class HikeRepository extends Database
         }
     }
 
-    public function addHike(string $name, float $distance, int $duration, int $elevationGain, string $description, array $tags, string $newTag)
+    public function addHike(string $name, float $distance, int $duration, int $elevationGain, string $description, array $tags, array $newTag)
     {
         try {
             $paramsHike = [
@@ -135,10 +135,12 @@ class HikeRepository extends Database
             // Assuming tags are stored in a separate table and linked via id_hike
             foreach ($tags as $tag) {
                 if ($tag == '' && !empty($newTag)) {
-                    $this->query(
-                        "INSERT INTO tags (tag, id_hike) VALUES (?,?)",
-                        [$newTag, $hikeID]
-                    );
+                    foreach($newTag as $elem) {
+                        $this->query(
+                            "INSERT INTO tags (tag, id_hike) VALUES (?,?)",
+                            [$elem, $hikeID]
+                        );
+                    }
                 } else {
                     $this->query(
                         "INSERT INTO tags (tag, id_hike) VALUES (?,?)",

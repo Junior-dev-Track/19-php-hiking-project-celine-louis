@@ -83,8 +83,12 @@ class HikeController
         $duration = $_POST['duration'];
         $elevation_gain = $_POST['elevationGain'];
         $description = $_POST['description'];
-        $tags = explode(',', $_POST['tags']);
-        $newTag = $_POST['newTag'];
+        $tags = $_POST['tags'];
+        // $tags = explode(',', $_POST['tags']);
+        $newTag[] = $_POST['newTag'];
+        if (isset($_POST['newTag']))
+            foreach($_POST['newTag'] as $tag)
+                $newTag[] = $tag;
 
         $this->hikeRepo->addHike($name, $distance, $duration, $elevation_gain, $description, $tags, $newTag);
     }
