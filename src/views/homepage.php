@@ -49,7 +49,7 @@ $title = "Hike project";
                                         </a>
                                     <?php endif; ?>
 
-                                </h5>
+                                </h5> 
                                 <div class="d-flex flex-row gap-3 align-items-center justify-content-center pt-3">
                                     <p>&#129406;<?= htmlspecialchars($hike['distance']) ?>km</p>
                                     <p>&#128337;<?= htmlspecialchars($hike['duration']) ?>h</p>
