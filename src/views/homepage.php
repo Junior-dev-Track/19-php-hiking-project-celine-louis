@@ -36,7 +36,7 @@ $title = "Hike project";
             <?php if (!empty($hikes)) : ?>
                 <?php foreach ($hikes as $hike) : ?>
                     <div class="col-md-4">
-                        <div class="card" style="width: 18rem; height: 14rem;">
+                        <div class="card" style="width: 18rem;">
                             <div class="card-body w-100 d-flex flex-column align-items-center">
                                 <h5 class="card-title d-flex flex-row align-items-center gap-2">
                                     <?= htmlspecialchars($hike['name']) ?>
@@ -56,8 +56,10 @@ $title = "Hike project";
                                     <p>&#128200;<?= htmlspecialchars($hike['elevation_gain']) ?>m</p>
                                 </div>
                                 <?php if (isset($tagsHikes)) : ?>
-                                    <?php foreach ($tagsHikes as $tag) : ?>
-                                        <p class="pb-3">&#128278;<?= htmlspecialchars($tag) ?></p>
+                                    <?php foreach ($tagsHikes as $tags) : ?>
+                                        <?php if ($tags['id_hike'] == $hike['id']) : ?>
+                                            <p class="pb-3">&#128278;<?= htmlspecialchars($tags['tag']) ?></p>
+                                        <?php endif ?>
                                     <?php endforeach ?>
                                 <?php endif; ?>
 

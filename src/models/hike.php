@@ -43,6 +43,7 @@ class HikeRepository extends Database
             $stmt = $this->query("SELECT id_hike, name, distance, duration, elevation_gain, id_user FROM hikes");
 
             $hikes = [];
+            $tagsHikes = [];
 
             while ($result = $stmt->fetch()) {
                 $tag = $this->getTagsOfHike($result['id_hike']);
@@ -56,11 +57,13 @@ class HikeRepository extends Database
                     // 'tag' => $tag['tag'],
                     'id_user' => $result['id_user']
                 ];
-                $tagsHikes = [];
                 foreach($tag as $elem) {
                     if ($elem == null)
                         $elem['tag'] = '';
-                    $tagsHikes[] = $elem['tag'];
+                    $tagsHikes[] = [
+                        'id_hike' => $result['id_hike'],
+                        'tag' => $elem['tag']
+                    ];
                 }
             }
             return [$hikes, $tagsHikes];
