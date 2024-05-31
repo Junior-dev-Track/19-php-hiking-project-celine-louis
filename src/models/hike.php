@@ -45,7 +45,7 @@ class HikeRepository extends Database
             $hikes = [];
 
             while ($result = $stmt->fetch()) {
-                $tag = $this->getTagOfHike($result['id_hike']);
+                $tag = $this->getTagsOfHike($result['id_hike']);
                 if ($tag == null)
                     $tag['tag'] = '';
                 $hikes[] = [
@@ -176,7 +176,7 @@ class HikeRepository extends Database
         return $hikes;
     }
 
-    public function editHike($id, $name, $distance, $duration, $elevationGain, $description, $tag, $newTag)
+    public function editHike($id, $name, $distance, $duration, $elevationGain, $description, $tags, $newTag)
     {
         try {
             $params = [
@@ -201,21 +201,28 @@ class HikeRepository extends Database
                 $params
             );
 
-            if ($tag == '' && !empty($newTag)) {
-                $params2 = [
-                    ":id_hike" => $id,
-                    ":tag" => $newTag,
-                ];
+            
+            if ($tags == '' && !empty($newTag)) {
+                foreach($newTag as $elem) {
+                    $params2 = [
+                        ":id_hike" => $id,
+                        ":tag" => $elem,
+                    ];
+                    $this->query(
+                        "INSERT INTO tags (tag, id_hike) VALUES (?,?)",
+                        [$elem, $id]
+                    );
+                }
             } else {
                 $params2 = [
                     ":id_hike" => $id,
                     ":tag" => $tag,
                 ];
+                $stmt2 = $this->query(
+                    "UPDATE tags SET tag = :tag WHERE id_hike = :id_hike",
+                    $params2
+                );
             }
-            $stmt2 = $this->query(
-                "UPDATE tags SET tag = :tag WHERE id_hike = :id_hike",
-                $params2
-            );
 
             $_SESSION['message'] = 'Hike edited!';
         } catch (Exception $e) {
@@ -255,23 +262,26 @@ class HikeRepository extends Database
         }
     }
 
-    public function getTagOfHike($id)
+    public function getTagsOfHike($id): array
     {
         try {
             $stmt = $this->query(
                 "SELECT id_tag, tag FROM tags WHERE id_hike = :id_hike",
                 ['id_hike' => $id]
             );
-            $result = $stmt->fetch();
-            if ($result && is_array($result)) {
-                $tag = [
-                    'id_tag' => $result['id_tag'],
-                    'tag' => $result['tag']
-                ];
-                return $tag;
-            } else {
-                throw new Exception("No result found for hike ID: $id");
+            // $result = $stmt->fetch();
+            $tags = [];
+            while ($result = $stmt->fetch()) {
+                // if ($result && is_array($result)) {
+                    $tags[] = [
+                        'id_tag' => $result['id_tag'],
+                        'tag' => $result['tag']
+                    ];
+                // } else {
+                //     throw new Exception("No result found for hike ID: $id");
+                // }
             }
+            return $tags;
         } catch (Exception $e) {
             error_log($e->getMessage());
         }

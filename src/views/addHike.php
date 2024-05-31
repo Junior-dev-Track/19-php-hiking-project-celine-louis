@@ -44,6 +44,7 @@ $title = "Hike project - Add a hike";
                 <?php endforeach ?>
             </select>
         </div>
+        
         <div class="input-group mb-3">
             <span class="input-group-text">&#128278;</span>
             <div class="form-floating">
@@ -64,38 +65,33 @@ $title = "Hike project - Add a hike";
             <button class="btn btn-primary" type="submit">Add a hike</button>
         </div>
 
-        <script>
-            function addTagField() {
-                const container = document.getElementById('dynamicTagsContainer');
+    </form>
 
-                const newDiv = document.createElement('div');
-                newDiv.className = "input-group mb-3";
-                container.appendChild(newDiv);
+    <script>
+        function addTagField() {
+            const container = document.getElementById('dynamicTagsContainer');
 
-                const newSpan = document.createElement('span');
-                newSpan.className = "input-group-text";
-                newSpan.textContent = '🔖';
-                newDiv.appendChild(newSpan);
+            const newDiv = document.createElement('div');
+            newDiv.className = "input-group mb-3";
+            container.appendChild(newDiv);
+
+            const newSpan = document.createElement('span');
+            newSpan.className = "input-group-text";
+            newSpan.textContent = '🔖';
+            newDiv.appendChild(newSpan);
 
 
-                const newTagField = document.createElement('input');
-                newTagField.type = 'text';
-                newTagField.className = 'form-control';
-                newTagField.id = "floatingInputGroup5";
-                newTagField.name = 'tags[]';
-                newTagField.placeholder = 'New category';
+            const newTagField = document.createElement('input');
+            newTagField.type = 'text';
+            newTagField.className = 'form-control';
+            newTagField.id = "floatingInputGroup5";
+            newTagField.name = 'tags[]';
+            newTagField.placeholder = 'New category';
 
-                newDiv.appendChild(newTagField);
+            newDiv.appendChild(newTagField);
+        }
+    </script>
 
-                // const newLabel = document.createElement('label');
-                // newLabel.for = 'floatingInputGroup5';
-                // newLabel.className = 'form-label';
-                // newLabel.textContent = 'New category';
-                
-                // newDiv.appendChild(newLabel);
-            }
-        </script>
+    <?php $content = ob_get_clean(); ?>
 
-        <?php $content = ob_get_clean(); ?>
-
-        <?php require('layout.php'); ?>
+    <?php require('layout.php'); ?>

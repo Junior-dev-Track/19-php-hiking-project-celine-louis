@@ -35,7 +35,7 @@ class HikeController
             $creator = (new User())->findUserByID($hike->id_user);
         else 
             $creator = null;
-        $tags = $this->hikeRepo->getTagOfHike($hike->id);
+        $tags = $this->hikeRepo->getTagsOfHike($hike->id);
         require('../src/views/hikeDetails.php');
     }
 
@@ -52,7 +52,8 @@ class HikeController
     public function editInfoHikeForm($id)
     {
         $hikesByUser = $this->hikeRepo->getHike($id);
-        $tagOfHike = $this->hikeRepo->getTagOfHike($id);
+        $tagsOfHike = $this->hikeRepo->getTagsOfHike($id);
+        $tags = $this->hikeRepo->getListOfTag();
         require('../src/views/editHike.php');
     }
 
@@ -63,10 +64,13 @@ class HikeController
         $duration = $_POST['duration'];
         $elevationGain = $_POST['elevationGain'];
         $description = $_POST['description'];
-        $tag = $_POST['tag'];
-        $newTag = $_POST['newTag'];
+        $tags[] = $_POST['tags[]'];
+        $newTag[] = $_POST['newTag'];
+        if (isset($_POST['newTag']))
+            foreach($_POST['newTag'] as $tag)
+                $newTag[] = $tag;
 
-        $this->hikeRepo->editHike($id, $name, $distance, $duration, $elevationGain, $description, $tag, $newTag);
+        $this->hikeRepo->editHike($id, $name, $distance, $duration, $elevationGain, $description, $tags, $newTag);
 
         header('Location: /19-php-hiking-project-celine-louis/profile');
     }
