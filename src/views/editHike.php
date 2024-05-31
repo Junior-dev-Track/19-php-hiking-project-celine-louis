@@ -59,6 +59,7 @@ error_reporting(E_ALL);
         <div class="input-group mb-3 mt-3">
             <span class="input-group-text">&#128507;</span>
             <select name="tag" id="inputGroupSelect03" class="form-select" aria-label="Example select with button addon">
+                <option value="">All Categories</option>
                 <?php foreach ($options as $value => $label) : ?>
                     <option value="<?php echo htmlspecialchars($value); ?>" <?php echo ($tagOfHike['tag'] == $value) ? 'selected' : ''; ?>>
                         <?php echo htmlspecialchars($label); ?>
@@ -66,6 +67,19 @@ error_reporting(E_ALL);
                 <?php endforeach; ?>
             </select>
         </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">&#128278;</span>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInputGroup5" name="newTag" placeholder="Add a new tag">
+                <label for="floatingInputGroup5" class="form-label">New category</label>
+            </div>
+        </div>
+
+        <!-- Other tags -->
+        <!-- <button type="button" id="addTagButton">Add New Tag</button>
+        <div id="dynamicTagsContainer"></div> -->
+
         <div class="input-group">
             <span class="input-group-text">&#128221;</span>
             <textarea name="description" class="form-control" aria-label="With textarea"><?php echo htmlspecialchars($hikesByUser->description); ?></textarea>

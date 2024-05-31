@@ -174,7 +174,7 @@ class HikeRepository extends Database
         return $hikes;
     }
 
-    public function editHike($id, $name, $distance, $duration, $elevationGain, $description, $tag)
+    public function editHike($id, $name, $distance, $duration, $elevationGain, $description, $tag, $newTag)
     {
         try {
             $params = [
@@ -199,10 +199,17 @@ class HikeRepository extends Database
                 $params
             );
 
-            $params2 = [
-                ":id_hike" => $id,
-                ":tag" => $tag,
-            ];
+            if ($tag == '' && !empty($newTag)) {
+                $params2 = [
+                    ":id_hike" => $id,
+                    ":tag" => $newTag,
+                ];
+            } else {
+                $params2 = [
+                    ":id_hike" => $id,
+                    ":tag" => $tag,
+                ];
+            }
             $stmt2 = $this->query(
                 "UPDATE tags SET tag = :tag WHERE id_hike = :id_hike",
                 $params2
@@ -222,7 +229,8 @@ class HikeRepository extends Database
             );
             $tags = [];
             while ($result = $stmt->fetch()) {
-                $tags[] = $result['tag'];
+                if ($result['tag'] != null)
+                    $tags[] = $result['tag'];
             }
             return $tags;
         } catch (Exception $e) {

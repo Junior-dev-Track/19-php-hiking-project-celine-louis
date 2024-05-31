@@ -64,8 +64,9 @@ class HikeController
         $elevationGain = $_POST['elevationGain'];
         $description = $_POST['description'];
         $tag = $_POST['tag'];
+        $newTag = $_POST['newTag'];
 
-        $this->hikeRepo->editHike($id, $name, $distance, $duration, $elevationGain, $description, $tag);
+        $this->hikeRepo->editHike($id, $name, $distance, $duration, $elevationGain, $description, $tag, $newTag);
 
         header('Location: /19-php-hiking-project-celine-louis/profile');
     }
@@ -82,11 +83,9 @@ class HikeController
         $duration = $_POST['duration'];
         $elevation_gain = $_POST['elevationGain'];
         $description = $_POST['description'];
-        // Split the tags string into an array based on commas
         $tags = explode(',', $_POST['tags']);
         $newTag = $_POST['newTag'];
 
-        // Pass the tags array to the addHike method
         $this->hikeRepo->addHike($name, $distance, $duration, $elevation_gain, $description, $tags, $newTag);
     }
 
