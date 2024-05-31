@@ -16,7 +16,8 @@ class HikeController
         $this->hikeRepo = new HikeRepository();
     }
 
-    public function homepage() {
+    public function homepage()
+    {
         $hikes = $this->hikeRepo->getListHikes();
         $tags = $this->hikeRepo->getListOfTag();
         require('../src/views/homepage.php');
@@ -33,7 +34,7 @@ class HikeController
         $hike = $this->hikeRepo->getHike($id);
         if ($hike->id_user != null)
             $creator = (new User())->findUserByID($hike->id_user);
-        else 
+        else
             $creator = null;
         $tags = $this->hikeRepo->getTagsOfHike($hike->id);
         require('../src/views/hikeDetails.php');
@@ -64,10 +65,19 @@ class HikeController
         $duration = $_POST['duration'];
         $elevationGain = $_POST['elevationGain'];
         $description = $_POST['description'];
-        $tags[] = $_POST['tags[]'];
+
+        $tags = [];
+        foreach ($_POST['tags'] as $tagWithId) {
+            $tagParts = explode(',', $tagWithId);
+            $tags[] = [
+                'tag' => $tagParts[0],
+                'id_tag' => $tagParts[1]
+            ];
+        }
+
         $newTag[] = $_POST['newTag'];
-        if (isset($_POST['newTag']))
-            foreach($_POST['newTag'] as $tag)
+        if (isset($_POST['newTag']) && $_POST['newTag'] !== '')
+            foreach ($_POST['newTag'] as $tag)
                 $newTag[] = $tag;
 
         $this->hikeRepo->editHike($id, $name, $distance, $duration, $elevationGain, $description, $tags, $newTag);
@@ -75,7 +85,8 @@ class HikeController
         header('Location: /19-php-hiking-project-celine-louis/profile');
     }
 
-    public function tagsAddHike() {
+    public function tagsAddHike()
+    {
         $tags = $this->hikeRepo->getListOfTag();
         require('../src/views/addHike.php');
     }
@@ -91,7 +102,7 @@ class HikeController
         // $tags = explode(',', $_POST['tags']);
         $newTag[] = $_POST['newTag'];
         if (isset($_POST['newTag']))
-            foreach($_POST['newTag'] as $tag)
+            foreach ($_POST['newTag'] as $tag)
                 $newTag[] = $tag;
 
         $this->hikeRepo->addHike($name, $distance, $duration, $elevation_gain, $description, $tags, $newTag);
@@ -103,7 +114,8 @@ class HikeController
         header('Location: /19-php-hiking-project-celine-louis/profile');
     }
 
-    public function deleteTag($tag) {
+    public function deleteTag($tag)
+    {
         $this->hikeRepo->tagToNull($tag);
     }
 }

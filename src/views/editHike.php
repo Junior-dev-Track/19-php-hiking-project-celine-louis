@@ -50,16 +50,17 @@ error_reporting(E_ALL);
             </div>
         </div>
 
-        <?php foreach ($tagsOfHike as $tagOfHike) : ?>
+        <?php foreach ($tagsOfHike as $index => $tagOfHike) : ?>
             <div class="input-group mb-3 mt-3">
                 <span class="input-group-text">&#128507;</span>
-                <select name="tags[]" id="inputGroupSelect03" class="form-select" aria-label="Example select with button addon">
+                <!-- Append the index to the name attribute to make it unique -->
+                <select name="tags[<?= $index; ?>]" id="inputGroupSelect03" class="form-select" aria-label="Example select with button addon">
                     <option value="">All Categories</option>
                     <?php foreach ($tags as $tag) : ?>
                         <?php if ($tag == $tagOfHike['tag']) : ?>
-                            <option value='<?php echo htmlspecialchars($tag) ?>' selected><?php echo htmlspecialchars($tag) ?></option>
+                            <option value='<?php echo htmlspecialchars($tag . "," . $tagOfHike['id_tag']) ?>' selected><?php echo htmlspecialchars($tag) ?></option>
                         <?php else : ?>
-                            <option value='<?php echo htmlspecialchars($tag) ?>'><?php echo htmlspecialchars($tag) ?></option>
+                            <option value='<?php echo htmlspecialchars($tag . "," . $tagOfHike['id_tag']) ?>'><?php echo htmlspecialchars($tag) ?></option>
                         <?php endif ?>
                     <?php endforeach ?>
                 </select>

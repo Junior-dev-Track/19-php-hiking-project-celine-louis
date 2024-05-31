@@ -201,16 +201,16 @@ class HikeRepository extends Database
                 $params
             );
 
-            // handle tags in selector
+            // handle tags in selector            
             foreach ($tags as $tag) {
-                if ($tag != '') {
+                if ($tag['tag'] != '') {
                     $params2 = [
                         ":id_hike" => $id,
-                        ":tag" => $tag,
+                        ":tag" => $tag['tag'],
+                        ":id" => $tag['id_tag']
                     ];
-                    // TODO ad where id_tag ...
                     $stmt2 = $this->query(
-                        "UPDATE tags SET tag = :tag WHERE id_hike = :id_hike",
+                        "UPDATE tags SET tag = :tag WHERE id_hike = :id_hike AND id_tag = :id",
                         $params2
                     );
                 }
@@ -219,14 +219,16 @@ class HikeRepository extends Database
             // handle tags added by user
             if (!empty($newTag)) {
                 foreach ($newTag as $tag) {
-                    $params2 = [
-                        ":id_hike" => $id,
-                        ":tag" => $tag,
-                    ];
-                    $this->query(
-                        "INSERT INTO tags (tag, id_hike) VALUES (:tag,:id_hike)",
-                        $params2
-                    );
+                    if ($tag !== '') {
+                        $params2 = [
+                            ":id_hike" => $id,
+                            ":tag" => $tag,
+                        ];
+                        $this->query(
+                            "INSERT INTO tags (tag, id_hike) VALUES (:tag,:id_hike)",
+                            $params2
+                        );
+                    }
                 }
             }
 
